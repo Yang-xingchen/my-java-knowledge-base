@@ -13,6 +13,13 @@
 - 管理平台 http://192.168.31.201:7091/
 - 默认用户名密码: `seata` `seata`
 
+# 领域模型
+![](https://img.alicdn.com/tfs/TB19qmhOrY1gK0jSZTEXXXDQVXa-1330-924.png)
+
+- TC (Transaction Coordinator) - 事务协调者: 维护全局和分支事务的状态，驱动全局事务提交或回滚。
+- TM (Transaction Manager) - 事务管理器: 定义全局事务的范围：开始全局事务、提交或回滚全局事务。
+- RM (Resource Manager) - 资源管理器: 管理分支事务处理的资源，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。
+
 # 事务模式
 ## AT
 [at](seata-dubbo/seata-dubbo-consumer/src/main/java/com/example/seata/consumer/at)
@@ -35,8 +42,15 @@ CREATE TABLE `undo_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 ```
 
+支持数据库: 
+- MySQL
+- Oracle
+- PostgreSQL
+- TiDB
+- MariaDB
+
 ## TCC
-> try-commit-cancel(TCC)
+> try-confirm-cancel(TCC)
 
 [tcc](seata-dubbo/seata-dubbo-consumer/src/main/java/com/example/seata/consumer/tcc)
 
@@ -44,12 +58,22 @@ CREATE TABLE `undo_log` (
 1. `@LocalTCC`标注调用的操作类，该类实现`prepare`、`commit`、`rollback`方法。
 2. `@TwoPhaseBusinessAction`注解标记`prepare`方法，并用`@BusinessActionContextParameter`标记业务参数。
 3. `prepare`方法表示`try`阶段，该阶段执行业务检查并锁定资源。
-4. `commit`方法表示`commit`阶段，该阶段提交事务(尽量不失败)。
-5. `rollback`方法表示`cancel`阶段，该阶段回滚事务(尽量不失败)。
+4. `commit`方法表示`confirm`阶段，该阶段提交事务(尽量不失败, 可能重试)。
+5. `rollback`方法表示`cancel`阶段，该阶段回滚事务(尽量不失败, 可能重试)。
+
+支持数据库: 不依赖数据库
 
 ## Saga
 
+支持数据库: 不依赖数据库
+
 ## XA
+
+支持数据库:
+- MySQL
+- Oracle
+- PostgreSQL
+- MariaDB
 
 ## 比较
 | | AT | TCC | Saga | XA |

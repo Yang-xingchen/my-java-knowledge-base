@@ -37,6 +37,12 @@
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-seata</artifactId>
 		</dependency>
+		<!-- 更新dubbo-seata依赖，默认版本较老，有bug -->
+		<dependency>
+			<groupId>org.apache.dubbo.extensions</groupId>
+			<artifactId>dubbo-filter-seata</artifactId>
+			<version>3.3.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -44,7 +44,6 @@ public class AtTestServiceImpl implements AtTestService {
     }
 
     @Override
-    @GlobalTransactional
     public void check(String message, Long id, Integer val) {
         Integer i = server.get(id);
         if (Objects.equals(i, val)) {
