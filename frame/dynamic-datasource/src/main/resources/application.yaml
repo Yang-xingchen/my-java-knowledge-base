@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: dynamic-datasource
+  datasource:
+    dynamic:
+      datasource:
+        master_1:
+          url: jdbc:mysql://192.168.31.201:3306/ds1?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+          username: root
+          password: 123456
+        master_2:
+          url: jdbc:mysql://192.168.31.201:3306/ds2?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+          username: root
+          password: 123456

@@ -23,6 +23,7 @@
         <module>netty</module>
         <module>dubbo</module>
         <module>sentinel</module>
+        <module>dynamic-datasource</module>
     </modules>
 
     <groupId>base-study</groupId>
