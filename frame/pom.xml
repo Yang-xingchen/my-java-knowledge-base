@@ -24,6 +24,7 @@
         <module>dubbo</module>
         <module>sentinel</module>
         <module>dynamic-datasource</module>
+        <module>mybatis-plus</module>
     </modules>
 
     <groupId>base-study</groupId>
