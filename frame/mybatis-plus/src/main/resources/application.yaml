@@ -2,3 +2,6 @@ spring:
   name: mybatis-plus
 mybatis-plus:
   type-enums-package: com.example.entry
+logging:
+  level:
+    com.example.mapper: debug

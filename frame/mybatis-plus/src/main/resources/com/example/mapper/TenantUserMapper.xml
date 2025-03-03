@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TenantUserMapper">
+
+    <resultMap id="user" type="com.example.entry.TenantUser">
+        <id column="u_u_id" property="id"/>
+        <result column="u_u_name" property="name"/>
+        <result column="u_r_id" property="rid"/>
+        <result column="u_tenant_id" property="tenant"/>
+        <association property="role" javaType="com.example.entry.TenantRole">
+            <id column="r_r_id" property="id"/>
+            <id column="r_r_name" property="name"/>
+            <id column="r_tenant_id" property="tenant"/>
+        </association>
+    </resultMap>
+
+    <select id="get" resultMap="user">
+        SELECT
+            u.`u_id` as  u_u_id,
+            u.`u_name` as  u_u_name,
+            u.`r_id` as  u_r_id,
+            u.`tenant_id` as  u_tenant_id,
+            r.`r_id` as  r_r_id,
+            r.`r_name` as  r_r_name,
+            r.`tenant_id` as  r_tenant_id
+        FROM t_tenant_user u
+        INNER JOIN t_tenant_role r ON u.r_id=r.r_id
+        WHERE u.u_id = #{uid}
+    </select>
+
+</mapper>

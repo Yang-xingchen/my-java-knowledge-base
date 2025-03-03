@@ -18,6 +18,7 @@ public class BaseMain implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("==================== {} ====================", getClass().getSimpleName());
         Long uid = save();
         find(uid);
         update(uid);
