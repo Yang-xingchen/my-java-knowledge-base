@@ -17,7 +17,7 @@ CREATE TABLE t_tenant_role (
     `r_id` BIGINT auto_increment NOT NULL,
     `r_name` VARCHAR(32) NOT NULL,
     `tenant_id` BIGINT NOT NULL,
-    CONSTRAINT r_pk PRIMARY KEY (r_id)
+    CONSTRAINT r_tenant_pk PRIMARY KEY (r_id)
 );
 
 CREATE TABLE t_dt_1 (

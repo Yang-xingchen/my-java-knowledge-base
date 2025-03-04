@@ -1,8 +1,6 @@
 package com.example;
 
-import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.handler.TableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.DynamicTableNameInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
@@ -107,6 +105,13 @@ public class MybatisPlusApplication {
     @Bean
     public CommandLineRunner lock() {
         return new LockMain();
+    }
+
+    // -------------------- SqlInjector -------------------- //
+
+    @Bean
+    public CommandLineRunner sqlInjector() {
+        return new SqlInjectorMain();
     }
 
 }
