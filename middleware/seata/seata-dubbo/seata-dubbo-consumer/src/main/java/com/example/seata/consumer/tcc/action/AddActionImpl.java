@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddActionImpl implements AddAction {
 
-    @DubboReference(group = "dubbo")
+    @DubboReference(group = Server.NONE)
     private Server server;
 
     private static final Logger log = LoggerFactory.getLogger(AddActionImpl.class);

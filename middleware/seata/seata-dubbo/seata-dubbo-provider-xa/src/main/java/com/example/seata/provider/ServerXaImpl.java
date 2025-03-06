@@ -7,10 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DubboService(group = Server.NONE)
-public class ServerImpl implements Server {
+@DubboService(group = Server.XA)
+public class ServerXaImpl implements Server {
 
-    private static final Logger log = LoggerFactory.getLogger(ServerImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ServerXaImpl.class);
 
     @Autowired
     private TestMapper testMapper;

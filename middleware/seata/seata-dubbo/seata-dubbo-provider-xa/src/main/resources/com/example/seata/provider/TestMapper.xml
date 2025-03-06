@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.seata.provider.TestMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_seata(`val`) VALUES (#{param.val})
+    </insert>
+
+    <update id="add">
+        UPDATE t_seata SET val=val+#{val} WHERE id=#{id}
+    </update>
+
+    <select id="get" resultType="Integer">
+        SELECT val FROM t_seata WHERE id=#{id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM t_seata WHERE id=#{id}
+    </delete>
+
+</mapper>

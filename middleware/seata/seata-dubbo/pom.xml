@@ -16,6 +16,7 @@
     <modules>
         <module>seata-dubbo-api</module>
         <module>seata-dubbo-provider</module>
+        <module>seata-dubbo-provider-xa</module>
         <module>seata-dubbo-consumer</module>
     </modules>
 

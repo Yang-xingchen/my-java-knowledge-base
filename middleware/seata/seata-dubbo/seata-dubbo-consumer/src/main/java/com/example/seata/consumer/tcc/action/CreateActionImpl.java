@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateActionImpl implements CreateAction {
 
-    @DubboReference(group = "dubbo")
+    @DubboReference(group = Server.NONE)
     private Server server;
     private static final Logger log = LoggerFactory.getLogger(CreateAction.class);
 

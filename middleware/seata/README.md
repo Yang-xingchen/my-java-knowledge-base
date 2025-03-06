@@ -21,6 +21,8 @@
 - RM (Resource Manager) - 资源管理器: 管理分支事务处理的资源，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。
 
 # 事务模式
+> AT模式和XA模式基于数据库代理，暂时未知如何在同一个项目使用多个代理(已尝试[dynamic-datasource](../../frame/dynamic-datasource)框架，在处理提交及回滚时出现问题)。
+
 ## AT
 [at](seata-dubbo/seata-dubbo-consumer/src/main/java/com/example/seata/consumer/at)
 
@@ -68,6 +70,10 @@ CREATE TABLE `undo_log` (
 支持数据库: 不依赖数据库
 
 ## XA
+
+[ServerXaImpl.java](seata-dubbo/seata-dubbo-provider-xa/src/main/java/com/example/seata/provider/ServerXaImpl.java)
+
+**启动类需要添加`@EnableAutoDataSourceProxy(dataSourceProxyMode = "XA")`注解**
 
 支持数据库:
 - MySQL

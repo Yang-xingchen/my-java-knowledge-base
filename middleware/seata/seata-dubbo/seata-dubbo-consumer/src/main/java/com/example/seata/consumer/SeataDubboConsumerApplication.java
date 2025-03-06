@@ -2,7 +2,10 @@ package com.example.seata.consumer;
 
 import com.example.seata.consumer.at.AtTestService;
 import com.example.seata.consumer.tcc.TccTestService;
+import com.example.seata.consumer.xa.XaTestService;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,52 +18,61 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SeataDubboConsumerApplication {
 
+	private static final Logger log = LoggerFactory.getLogger(SeataDubboConsumerApplication.class);
+
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(SeataDubboConsumerApplication.class)
 				.web(WebApplicationType.NONE)
 				.run(args);
 	}
 
-	@Bean
-	public CommandLineRunner atCommit(AtTestService atTestService) {
-		return args -> {
-			Long id = atTestService.commit();
-			atTestService.check("at commit", id, 2);
-		};
+
+	private void doCommit(TestService service, String name) {
+		Long a = service.create();
+		Long b = service.create();
+		service.commit(a, b);
+		service.check(name + " commit", a, 1, b, 1);
+	}
+
+	private void doRollback(TestService service, String name) {
+		Long a = service.create();
+		Long b = service.create();
+		try {
+			service.rollback(a, b);
+		} catch (Exception e) {
+			log.error("{} rollback", name, e);
+		}
+		service.check(name + " rollback", a, 0, b, 0);
 	}
 
 	@Bean
-	public CommandLineRunner atRollback(AtTestService atTestService) {
-		return args -> {
-			Long id;
-			try {
-				id = atTestService.rollback();
-			} catch (TestException e) {
-				id = e.getId();
-			}
-			atTestService.check("at rollback", id, null);
-		};
+	public CommandLineRunner atCommit(AtTestService testService) {
+		return args -> doCommit(testService, "at");
 	}
 
 	@Bean
-	public CommandLineRunner tccCommit(TccTestService tccTestService) {
-		return args -> {
-			Long id = tccTestService.commit();
-			tccTestService.check("tcc commit", id, 2);
-		};
+	public CommandLineRunner atRollback(AtTestService testService) {
+		return args -> doRollback(testService, "at");
 	}
 
 	@Bean
-	public CommandLineRunner tccRollback(TccTestService tccTestService) {
-		return args -> {
-			Long id;
-			try {
-				id = tccTestService.rollback();
-			} catch (TestException e) {
-				id = e.getId();
-			}
-			tccTestService.check("tcc rollback", id, null);
-		};
+	public CommandLineRunner tccCommit(TccTestService testService) {
+		return args -> doCommit(testService, "tcc");
+	}
+
+	@Bean
+	public CommandLineRunner tccRollback(TccTestService testService) {
+		return args -> doRollback(testService, "tcc");
+	}
+
+	@Bean
+	public CommandLineRunner xaCommit(XaTestService testService) {
+		return args -> doCommit(testService, "xa");
+	}
+
+	@Bean
+	public CommandLineRunner xaRollback(XaTestService testService) {
+		return args -> doRollback(testService, "xa");
 	}
 
 }

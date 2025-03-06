@@ -1,11 +1,7 @@
 package com.example.seata.consumer.tcc;
 
-public interface TccTestService {
+import com.example.seata.consumer.TestService;
 
-    Long commit();
-
-    Long rollback();
-
-    void check(String message, Long id, Integer val);
+public interface TccTestService extends TestService {
 
 }

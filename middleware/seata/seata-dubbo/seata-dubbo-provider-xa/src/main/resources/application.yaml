@@ -1,0 +1,34 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: seataDubboProviderXa
+  datasource:
+    url: jdbc:mysql://192.168.31.201:3306/transaction?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.31.201:8848,192.168.31.202:8848,192.168.31.203:8848
+        username: nacos
+        password: 123456
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+  protocol:
+    name: tri
+    port: 50051
+  registry:
+    address: nacos://192.168.31.201:8848?username=nacos&password=123456
+seata:
+  enabled: true
+  application-id:
+    name: ${spring.application.name}
+  tx-service-group: default_tx_group
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: 192.168.31.201:8091

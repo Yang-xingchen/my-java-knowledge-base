@@ -1,11 +1,7 @@
 package com.example.seata.consumer.at;
 
-public interface AtTestService {
+import com.example.seata.consumer.TestService;
 
-    Long commit();
-
-    Long rollback();
-
-    void check(String message, Long id, Integer val);
+public interface AtTestService extends TestService {
 
 }
