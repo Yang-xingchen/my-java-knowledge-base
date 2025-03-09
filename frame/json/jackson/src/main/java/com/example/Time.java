@@ -10,7 +10,7 @@ import java.time.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Module {
+public class Time {
 
     private static final ObjectMapper TIMESTAMPS_MAPPER = new ObjectMapper()
             .enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)

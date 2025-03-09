@@ -1,25 +1,22 @@
 package com.example;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
+import com.alibaba.fastjson2.annotation.JSONCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class Base {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
     @Test
-    public void entry() throws JsonProcessingException {
+    public void entry() {
         BaseEntry entry = new BaseEntry();
         entry.setI(1);
         entry.setStr("str");
@@ -27,25 +24,25 @@ public class Base {
         entry.setTimeUnit(TimeUnit.SECONDS);
         entry.setTra(2);
         entry.pub = 3;
-        String json = MAPPER.writeValueAsString(entry);
-        // {"i":1,"str":"str","b":false,"timeUnit":"SECONDS","pub":3,"tra":2,"value":"str1"}
+        String json = JSONObject.toJSONString(entry);
+        // {"b":false,"i":1,"pub":3,"str":"str","timeUnit":"SECONDS","value":"str1"}
         System.out.println(json);
-        BaseEntry entry1 = MAPPER.readValue(json, BaseEntry.class);
+        BaseEntry entry1 = JSONObject.parseObject(json, BaseEntry.class);
         Assertions.assertEquals(1, entry1.getI());
         Assertions.assertEquals("str", entry1.getStr());
         Assertions.assertNull(entry1.noGetSet);
         Assertions.assertEquals(TimeUnit.SECONDS, entry1.getTimeUnit());
-        Assertions.assertEquals(2, entry1.getTra());
+        Assertions.assertEquals(0, entry1.getTra());
         Assertions.assertEquals(3, entry1.pub);
     }
 
     @Test
-    public void list() throws JsonProcessingException {
+    public void list() {
         List<String> strings = List.of("str1", "str2");
-        String sListJson = MAPPER.writeValueAsString(strings);
+        String sListJson = JSONObject.toJSONString(strings);
         // ["str1","str2"]
         System.out.println(sListJson);
-        List<String> strings1 = MAPPER.readValue(sListJson, new TypeReference<>() {});
+        List<String> strings1 = JSONObject.parseObject(sListJson, new TypeReference<>() {});
         Assertions.assertEquals(strings, strings1);
 
         List<BaseEntry> entries = IntStream.range(0, 3).mapToObj(i -> {
@@ -54,16 +51,16 @@ public class Base {
             entry.setStr(i + "str");
             return entry;
         }).toList();
-        String eListJson = MAPPER.writeValueAsString(entries);
-        // [{"i":0,"str":"0str","b":false,"timeUnit":null,"pub":0,"value":"0str0","tra":0},{"i":1,"str":"1str","b":false,"timeUnit":null,"pub":0,"value":"1str1","tra":0},{"i":2,"str":"2str","b":false,"timeUnit":null,"pub":0,"value":"2str2","tra":0}]
+        String eListJson = JSONObject.toJSONString(entries);
+        // [{"b":false,"i":0,"pub":0,"str":"0str","value":"0str0"},{"b":false,"i":1,"pub":0,"str":"1str","value":"1str1"},{"b":false,"i":2,"pub":0,"str":"2str","value":"2str2"}]
         System.out.println(eListJson);
-        List<BaseEntry> entries1 = MAPPER.readValue(eListJson, new TypeReference<>() {});
+        List<BaseEntry> entries1 = JSONObject.parseObject(eListJson, new TypeReference<>() {});
         Assertions.assertEquals(entries, entries1);
         Assertions.assertEquals(BaseEntry.class, entries1.getFirst().getClass());
     }
 
     @Test
-    public void map() throws JsonProcessingException {
+    public void map() {
         BaseEntry entry = new BaseEntry();
         entry.setI(0);
         entry.setStr("str");
@@ -72,19 +69,18 @@ public class Base {
                 "int", 1,
                 "obj", entry,
                 "arr", List.of("str", "str2"),
-                "double", 1.23,
-                "long", Long.MAX_VALUE
+                "double", 1.23
         );
-        String sMapJson = MAPPER.writeValueAsString(stringMap);
-        // {"arr":["str","str2"],"long":9223372036854775807,"str":"v1","int":1,"obj":{"i":0,"str":"str","b":false,"timeUnit":null,"pub":0,"value":"str0","tra":0},"double":1.23}
+        String sMapJson = JSONObject.toJSONString(stringMap);
+        // {"int":1,"double":1.23,"arr":["str","str2"],"obj":{"b":false,"i":0,"pub":0,"str":"str","value":"str0"},"str":"v1"}
         System.out.println(sMapJson);
-        Map<String, Object> stringMap1 = MAPPER.readValue(sMapJson, new TypeReference<>() {});
-        Assertions.assertEquals(LinkedHashMap.class, stringMap1.getClass());
+        Map<String, Object> stringMap1 = JSONObject.parseObject(sMapJson, new TypeReference<>() {});
+        Assertions.assertEquals(HashMap.class, stringMap1.getClass());
         Assertions.assertEquals(String.class, stringMap1.get("str").getClass());
         Assertions.assertEquals(Integer.class, stringMap1.get("int").getClass());
-        Assertions.assertEquals(LinkedHashMap.class, stringMap1.get("obj").getClass());
-        Assertions.assertEquals(ArrayList.class, stringMap1.get("arr").getClass());
-        Assertions.assertEquals(Double.class, stringMap1.get("double").getClass());
+        Assertions.assertEquals(JSONObject.class, stringMap1.get("obj").getClass());
+        Assertions.assertEquals(JSONArray.class, stringMap1.get("arr").getClass());
+        Assertions.assertEquals(BigDecimal.class, stringMap1.get("double").getClass());
     }
 
     public static class BaseEntry {
@@ -117,7 +113,7 @@ public class Base {
         }
 
         public void setValue(String value) {
-            // 会调用
+            // 不会调用
             System.err.println("invoke setValue: " + value);
         }
 
@@ -168,16 +164,11 @@ public class Base {
     }
 
     @Test
-    public void loop() throws JsonProcessingException {
+    public void loop() {
         LoopEntry loopEntry = new LoopEntry();
         loopEntry.setI(1);
         loopEntry.setLoopEntry(loopEntry);
-        Assertions.assertThrows(InvalidDefinitionException.class, () -> MAPPER.writeValueAsString(loopEntry));
-        ObjectMapper mapper1 = new ObjectMapper()
-                .disable(SerializationFeature.FAIL_ON_SELF_REFERENCES)
-                .enable(SerializationFeature.WRITE_SELF_REFERENCES_AS_NULL);
-        // {"i":1,"loopEntry":null}
-        System.out.println(mapper1.writeValueAsString(loopEntry));
+        Assertions.assertThrows(JSONException.class, () -> JSONObject.toJSONString(loopEntry));
     }
 
     public static class LoopEntry {
@@ -203,12 +194,12 @@ public class Base {
     }
 
     @Test
-    public void constructor() throws JsonProcessingException {
+    public void constructor() {
         ConstructorEntry entry = new ConstructorEntry(1, "s1");
-        // {"i1":1,"s1":"s0"}
-        String json = MAPPER.writeValueAsString(entry);
+        // {"i1":1,"s1":"s1"}
+        String json = JSONObject.toJSONString(entry);
         System.out.println(json);
-        ConstructorEntry entry1 = MAPPER.readValue(json, ConstructorEntry.class);
+        ConstructorEntry entry1 = JSONObject.parseObject(json, ConstructorEntry.class);
         Assertions.assertEquals(1, entry1.i1);
         Assertions.assertEquals("s1", entry1.s1);
     }
@@ -224,20 +215,19 @@ public class Base {
             s1 = "s0";
         }
 
-        public ConstructorEntry(@JsonProperty("i1") int i1) {
+        public ConstructorEntry(int i1) {
             System.out.println("int" + i1);
             this.i1 = i1;
             this.s1 = "s0";
         }
 
-        public ConstructorEntry(@JsonProperty("s1") String s1) {
+        public ConstructorEntry(String s1) {
             System.out.println("str" + s1);
             this.i1 = 0;
             this.s1 = s1;
         }
 
-        @JsonCreator
-        public ConstructorEntry(@JsonProperty("i1") int i1, @JsonProperty("s1") String s1) {
+        public ConstructorEntry(int i1, String s1) {
             System.out.println("int" + i1 + "str" + s1);
             this.i1 = i1;
             this.s1 = s1;
