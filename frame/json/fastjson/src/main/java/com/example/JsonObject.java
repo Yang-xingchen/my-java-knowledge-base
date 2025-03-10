@@ -1,8 +1,8 @@
 package com.example;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,12 +33,14 @@ public class JsonObject {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("i", 1);
         jsonObject.put("str", "str");
-        JSONArray jsonArray = jsonObject.putArray("list");
+        JSONArray jsonArray = new JSONArray();
         jsonArray.add("str1");
         jsonArray.add("str2");
-        JSONObject obj = jsonObject.putObject("obj");
+        jsonObject.put("list", jsonArray);
+        JSONObject obj = new JSONObject();
         obj.put("ii", 2);
         obj.put("is", "objStr");
+        jsonObject.put("obj", obj);
         // {"i":1,"str":"str","list":["str1","str2"],"obj":{"ii":2,"is":"objStr"}}
         System.out.println(jsonObject);
     }

@@ -1,6 +1,6 @@
 package com.example;
 
-import com.alibaba.fastjson2.*;
+import com.alibaba.fastjson.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -123,7 +123,7 @@ public class Base {
         }
 
         public void setValue(String value) {
-            // 会调用
+            // 不会调用
             System.err.println("invoke setValue: " + value);
         }
 
@@ -177,9 +177,9 @@ public class Base {
     public void record() {
         RecordEntry entry = new RecordEntry(1L, "user");
         String json = JSON.toJSONString(entry);
-        // {"id":1,"name":"user"}
+        // {}
         System.out.println(json);
-        RecordEntry entry1 = JSON.parseObject(json, RecordEntry.class);
+        RecordEntry entry1 = JSON.parseObject("{\"id\":1,\"name\":\"user\"}", RecordEntry.class);
         Assertions.assertEquals(1L, entry1.id());
         Assertions.assertEquals("user", entry1.name());
     }
@@ -192,7 +192,11 @@ public class Base {
         LoopEntry loopEntry = new LoopEntry();
         loopEntry.setI(1);
         loopEntry.setLoopEntry(loopEntry);
-        Assertions.assertThrows(JSONException.class, () -> JSON.toJSONString(loopEntry));
+        String json = JSON.toJSONString(loopEntry);
+        // {"i":1,"loopEntry":{"$ref":"@"}}
+        System.out.println(json);
+        LoopEntry loopEntry1 = JSON.parseObject(json, LoopEntry.class);
+        Assertions.assertEquals(loopEntry1, loopEntry1.loopEntry);
     }
 
     public static class LoopEntry {

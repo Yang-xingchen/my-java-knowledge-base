@@ -11,6 +11,7 @@
 
     <modules>
         <module>jackson</module>
+        <module>fastjson</module>
         <module>fastjson2</module>
     </modules>
 

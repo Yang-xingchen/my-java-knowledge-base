@@ -1,9 +1,9 @@
 package com.example;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.annotation.JSONBuilder;
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.alibaba.fastjson2.annotation.JSONType;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONPOJOBuilder;
+import com.alibaba.fastjson.annotation.JSONType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -89,7 +89,7 @@ public class Annotation {
         }
     }
 
-    @JSONBuilder
+    @JSONPOJOBuilder
     public static class EntryBuild {
         private String s1;
         private String s2;

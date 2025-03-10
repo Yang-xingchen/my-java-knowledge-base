@@ -19,6 +19,17 @@ public class Base {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
+    public void primitive () throws JsonProcessingException {
+        Assertions.assertEquals(1, MAPPER.readValue("1", int.class));
+        Assertions.assertEquals(1.23, MAPPER.readValue("1.23", double.class));
+        Assertions.assertTrue(MAPPER.readValue("true", boolean.class));
+        Assertions.assertThrows(JsonProcessingException.class, () -> MAPPER.readValue("a", char.class));
+        Assertions.assertThrows(JsonProcessingException.class, () -> MAPPER.readValue("a", String.class));
+        Assertions.assertNull(MAPPER.readValue("null", Object.class));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> MAPPER.readValue((String) null, Object.class));
+    }
+
+    @Test
     public void entry() throws JsonProcessingException {
         BaseEntry entry = new BaseEntry();
         entry.setI(1);
@@ -165,6 +176,20 @@ public class Base {
         public int hashCode() {
             return Objects.hash(i, str);
         }
+    }
+
+    @Test
+    public void record() throws JsonProcessingException {
+        RecordEntry entry = new RecordEntry(1L, "user");
+        String json = MAPPER.writeValueAsString(entry);
+        // {"id":1,"name":"user"}
+        System.out.println(json);
+        RecordEntry entry1 = MAPPER.readValue(json, RecordEntry.class);
+        Assertions.assertEquals(1L, entry1.id());
+        Assertions.assertEquals("user", entry1.name());
+    }
+
+    public record RecordEntry(Long id, String name) {
     }
 
     @Test

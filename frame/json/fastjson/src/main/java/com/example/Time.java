@@ -1,6 +1,6 @@
 package com.example;
 
-import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
@@ -18,7 +18,7 @@ public class Time {
         obj.put("duration", Duration.ofSeconds(30));
         obj.put("zoneId", ZoneId.of("+8"));
         String json = JSON.toJSONString(obj);
-        // {"duration":"PT30S","zoneId":"+08:00","localDataTime":"2025-03-09 15:55:52.805278900","zoneDataTime":"2025-03-09T15:55:52.806412800[Asia/Shanghai]","instant":"2025-03-09T07:55:52.806412800Z"}
+        // {"duration":"PT30S","zoneId":"+08:00","localDataTime":"2025-03-10T15:15:39.874080100","zoneDataTime":"2025-03-10T15:15:39.875080100+08:00[Asia/Shanghai]","instant":"2025-03-10T07:15:39.875080100Z"}
         System.out.println(json);
     }
 
