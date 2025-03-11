@@ -26,6 +26,8 @@
 | 无setter方法 | 异常(默认) | 不反序列化 | 不反序列化 |
 | 循环引用 | 异常(默认) / null(配置) | 支持 | 异常(默认) |
 | Mixin | 支持 | 支持 | 支持 |
+| Json Patch | 不支持 | 支持 | 不支持 |
+| Json Path | 不支持 | 支持 | 部分支持，部分错误 |
 | Stream读 | 支持 | 支持 | 支持 |
 | Stream写 | 支持 | 支持 | 支持 |
 | Object类型 | LinkedHashMap | JSONObject(默认) / LinkedHashMap(配置) | JSONObject(默认) / LinkedHashMap(配置) |
