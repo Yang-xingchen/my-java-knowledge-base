@@ -3,6 +3,8 @@
 1. [`MethodHandle`(方法句柄)](./MethodHandleTest.java)
 2. [`VarHandle`(变量句柄)](./VarHandleTest.java)
 3. [`MethodHandles`(操作工具类)](./MethodHandlesTest.java)
+4. [`Callsite`(调用点)](./CallsiteTest.java)
+4. [`LambdaMetafactory`(lambda实现)](./LambdaMetafactoryTest.java)
 
 
 ## 方法句柄 MethodHandle
@@ -25,3 +27,12 @@
 2. VarHandle可对访问设值进行更底层的控制(内存屏障、指令重排等，类似使用Atom类及Unsafe类), Field只能按字段类型处理
 3. VarHandle无法获取方法信息(标识、类型、注解等), Field可以获取方法信息
 4. VarHandle方法可转成MethodHandle, 以支持MethodHandle优点
+
+## 调用点 Callsite
+对`MethodHandle`的一层封装。
+- ConstantCallSite: `dynamicInvoker()`返回MethodHandle为常量。
+- MutableCallSite: `dynamicInvoker()`返回`MethodHandle`为原`MethodHandle`的代理，可通过`setTarget()`更改目标`MethodHandle`。
+- VolatileCallSite: 同`MutableCallSite`，但是线程安全。
+
+## LambdaMetafactory
+java8 lambda的实现方式

@@ -16,7 +16,7 @@
 - [编译](./base/src/main/java/compiler): 运行期编译 / 编译期注解
 - [特性](./base/src/main/java/feature): JDK8 / JDK17 / JDK21 新版本特性
 - [生成器](./base/src/main/java/generator): 简易类Stream框架
-- [句柄](./base/src/main/java/invoke): 方法句柄 / 变量句柄
+- [句柄](./base/src/main/java/invoke): 方法句柄 / 变量句柄 / 调用点 / Lambda实现
 - [IO](./base/src/main/java/io): BIO / NIO / AIO(NIO2)
 - [JUC](./base/src/main/java/juc): 多线程工具
 - [动态代理](./base/src/main/java/proxy): JDK动态代理
