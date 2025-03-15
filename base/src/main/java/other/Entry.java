@@ -14,6 +14,7 @@ public class Entry implements Serializable, Cloneable {
     private double aDouble;
 
     private String string;
+    public String pubString;
 
     public static int getUseConstructorCount() {
         return useConstructorCount;
@@ -27,36 +28,20 @@ public class Entry implements Serializable, Cloneable {
         return aLong;
     }
 
-    public Entry setaLong(long aLong) {
-        this.aLong = aLong;
-        return this;
-    }
-
     public int getInteger() {
         return integer;
-    }
-
-    public Entry setInteger(int integer) {
-        this.integer = integer;
-        return this;
     }
 
     public double getaDouble() {
         return aDouble;
     }
 
-    public Entry setaDouble(double aDouble) {
-        this.aDouble = aDouble;
-        return this;
-    }
-
     public String getString() {
         return string;
     }
 
-    public Entry setString(String string) {
-        this.string = string;
-        return this;
+    public String getPubString() {
+        return pubString;
     }
 
     @Override

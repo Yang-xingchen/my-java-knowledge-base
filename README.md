@@ -1,6 +1,6 @@
 # my-java-knowledge-base
 个人知识库，主要以Java技术为主，与Java关联较大技术也有。
-详细内容见各个`*.md`文件内容。
+主要以代码+注释整理，总结内容见各个`*.md`文件内容。
 
 # 目录
 > 具体进入对应目录查看
@@ -8,8 +8,8 @@
 - [base](./base): JDK
 - [frame](./frame): 框架
 - [middleware](./middleware): 中间件
-- [sso](./sso): 单点登录
-- [vue](./vue): vue
+- _[sso](./sso): 单点登录_
+- _[vue](./vue): vue_
 
 # JDK
 - [加密/解密](./base/src/main/java/codeAndDecode): Base64 / AES / DES
@@ -21,13 +21,58 @@
 - [JUC](./base/src/main/java/juc): 多线程工具
 - [动态代理](./base/src/main/java/proxy): JDK动态代理
 - [时间](./base/src/main/java/time): Java8时间相关工具
-- _[创建对象](./base/src/main/java/other/CreateEntry.java): 创建对象的6种方式_
+- [spi](./base/src/main/java/spi): spi
+- 奇技淫巧
+  - [创建对象](./base/src/main/java/other/CreateEntry.java): 创建对象的`6种`方式
+  - [改变字段](./base/src/main/java/other/ChangeField.java): 改变字段值的`5种`方式
+  - [方法调用](./base/src/main/java/other/InvokeMethod.java): 调用方法的`4种`方式
+  - [单例](./base/src/main/java/other/BreakSingleton.java): 创建及破坏单例
 - ...
 
-# 生态
-> 框架及中间件见[frame](./frame)及[middleware](./middleware)目录
+# 框架
+一些框架的使用
+- spring
+  - [transaction](frame/spring-transaction): spring事务
+  - [format](frame/spring-format): spring序列化/反序列化
+  - [listener](frame/spring-listener): 事件监听器
+  - [ai](frame/spring-ai): Ollama+deepseek
+- 数据库
+  - [sharding](frame/sharding): 数据库分库分表框架
+  - [mybatis](frame/mybatis): ORM框架
+  - [dynamic-datasource](frame/dynamic-datasource): 动态数据源 
+  - [mybatis-plus](frame/mybatis-plus): mybatis扩展
+- 微服务
+  - [dubbo](frame/dubbo): RPC框架
+  - [sentinel](frame/sentinel): 限流框架
+- 其他
+  - [reactor](frame/reactor): 响应式框架
+  - [parquet](frame/parquet): 列式文件格式
+  - [jmh](frame/jmh): 压测
+  - [easyexcel](frame/easyexcel): excel读写框架
+  - [netty](frame/netty): 网络框架
+  - [json](frame/json): json框架
+      - [fastjson](frame/json/fastjson)
+      - [fastjson2](frame/json/fastjson2)
+      - [jackson](frame/json/jackson)
 
-## 微服务导航
+# 中间件
+- 微服务
+  - [消息队列](middleware/消息中间件.md)
+    - [activeMQ](middleware/jms): _JMS方式使用_
+    - [kafka](middleware/kafka)
+    - [pulsar](middleware/pulsar)
+  - [mysql](middleware/mysql): CTE/窗口函数的使用
+  - [nacos](middleware/nacos): 服务发现/注册中心
+  - [powerJob](middleware/powerJob): 定时任务
+  - [prometheus](middleware/prometheus): 监控
+  - [seata](middleware/seata): 分布式事务
+- 大数据
+  - [flink](middleware/flink)
+  - [hadoop](middleware/hadoop)
+  - [zookeeper](middleware/zookeeper)
+  - [spark](middleware/spark)
+
+# 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
 |---|---|---|---|---|
 | nacos | spring | / | RestTemplate / RestClient / WebClient / OpenFeign / HttpExchange | [provider](./middleware/nacos/nacos-spring-provider) / [consumer](./middleware/nacos/nacos-spring-consumer) |
