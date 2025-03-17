@@ -21,6 +21,7 @@
         <module>prometheus</module>
         <module>pulsar</module>
         <module>seata</module>
+        <module>canal</module>
     </modules>
 
     <groupId>base-study</groupId>
