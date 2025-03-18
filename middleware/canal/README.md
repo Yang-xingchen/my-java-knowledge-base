@@ -1,6 +1,9 @@
 # canal
 [github](https://github.com/alibaba/canal)
 
+[客户端模式](src/main/java/com/example/client/Main.java)
+[Kafka](src/main/java/com/example/kafka/KafkaApplication.java)
+
 # 安装
 1. 配置mysql，开启binlog`vim /etc/my.cnf`
     ```
@@ -22,4 +25,17 @@
    canal.instance.dbUsername=root
    canal.instance.dbPassword=123456
    ```
- 
+
+## 转发kafka配置
+1. 配置topic `vim conf/example/instance.properties`
+   ```
+   canal.mq.topic=canal-topic
+   ```
+2. 配置kafka连接信息 `vim conf/canal.properties`
+   ```
+   kafka.bootstrap.servers = 192.168.31.201:9092,192.168.31.202:9092,192.168.31.203:9093
+   ```
+
+## 命令
+- 启动: `bin/startup.sh`
+- 关闭: `bin/stop.sh`

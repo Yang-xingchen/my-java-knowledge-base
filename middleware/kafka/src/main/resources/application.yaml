@@ -8,9 +8,9 @@ spring:
       - 192.168.31.202:9092
       - 192.168.31.203:9092
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      valuer-serializer: org.apache.kafka.common.serialization.StringSerializer
+      keySerializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      autoOffsetReset: earliest
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.apache.kafka.common.serialization.StringDeserializer
