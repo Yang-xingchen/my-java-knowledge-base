@@ -8,6 +8,7 @@
 - [base](./base): JDK
 - [frame](./frame): 框架
 - [middleware](./middleware): 中间件
+- [note](./note): 笔记
 - _[sso](./sso): 单点登录_
 - _[vue](./vue): vue_
 
@@ -56,6 +57,7 @@
       - [jackson](frame/json/jackson)
 
 # 中间件
+第三方组件，独立进程
 - 微服务
   - [消息队列](middleware/消息中间件.md)
     - [activeMQ](middleware/jms): _JMS方式使用_
@@ -71,6 +73,15 @@
   - [hadoop](middleware/hadoop)
   - [zookeeper](middleware/zookeeper)
   - [spark](middleware/spark)
+- 其他
+  - [canal](middleware/canal): 数据库变更监听
+
+# 笔记
+与具体代码无关知识
+- Linux
+  - [文件命令](note/Linux-文件命令.md)
+  - [系统命令](note/Linux-系统命令.md)
+  - [网络配置](note/Linux-网络配置.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
