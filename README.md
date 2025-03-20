@@ -12,7 +12,7 @@
 - _[sso](./sso): 单点登录_
 - _[vue](./vue): vue_
 
-# JDK
+## JDK
 - [加密/解密](./base/src/main/java/codeAndDecode): Base64 / AES / DES
 - [编译](./base/src/main/java/compiler): 运行期编译 / 编译期注解
 - [特性](./base/src/main/java/feature): JDK8 / JDK17 / JDK21 新版本特性
@@ -30,7 +30,7 @@
   - [单例](./base/src/main/java/other/BreakSingleton.java): 创建及破坏单例
 - ...
 
-# 框架
+## 框架
 一些框架的使用
 - spring
   - [transaction](frame/spring-transaction): spring事务
@@ -56,7 +56,7 @@
       - [fastjson2](frame/json/fastjson2)
       - [jackson](frame/json/jackson)
 
-# 中间件
+## 中间件
 第三方组件，独立进程
 - 微服务
   - [消息队列](middleware/消息中间件.md)
@@ -76,12 +76,13 @@
 - 其他
   - [canal](middleware/canal): 数据库变更监听
 
-# 笔记
+## 笔记
 与具体代码无关知识
 - Linux
   - [文件命令](note/Linux-文件命令.md)
   - [系统命令](note/Linux-系统命令.md)
   - [网络配置](note/Linux-网络配置.md)
+- [git](note/Git.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
