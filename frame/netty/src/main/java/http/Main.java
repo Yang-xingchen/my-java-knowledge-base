@@ -21,6 +21,8 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 
 public class Main {
 
+    public static final int PORT = 8080;
+
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -41,9 +43,9 @@ public class Main {
                         }
                     });
 
-            Channel ch = b.bind(8080).sync().channel();
+            Channel ch = b.bind(PORT).sync().channel();
 
-            System.out.println("http://localhost:8080/");
+            System.out.println("http://localhost:" + PORT + "/");
 
             ch.closeFuture().sync();
         } finally {
@@ -58,7 +60,7 @@ public class Main {
         protected void channelRead0(ChannelHandlerContext ctx, HttpRequest req) throws Exception {
             boolean keepAlive = HttpUtil.isKeepAlive(req);
             FullHttpResponse response = new DefaultFullHttpResponse(req.protocolVersion(), OK,
-                    Unpooled.wrappedBuffer((req.method() + " " + req.uri()).getBytes()));
+                    Unpooled.wrappedBuffer((req.method() + " " + PORT + " " + req.uri()).getBytes()));
             response.headers()
                     .set(CONTENT_TYPE, TEXT_PLAIN)
                     .setInt(CONTENT_LENGTH, response.content().readableBytes());

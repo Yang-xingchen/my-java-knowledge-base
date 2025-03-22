@@ -1,10 +1,10 @@
 # my-java-knowledge-base
 个人知识库，主要以Java技术为主，与Java关联较大技术也有。
-主要以代码+注释整理，总结内容见各个`*.md`文件内容。
+
+> [!TIP]
+> 主要以代码+注释整理，总结内容见各个`*.md`文件内容。
 
 # 目录
-> 具体进入对应目录查看
-
 - [base](./base): JDK
 - [frame](./frame): 框架
 - [middleware](./middleware): 中间件
@@ -79,10 +79,12 @@
 ## 笔记
 与具体代码无关知识
 - Linux
-  - [文件命令](note/Linux-文件命令.md)
-  - [系统命令](note/Linux-系统命令.md)
-  - [网络配置](note/Linux-网络配置.md)
+  - [文件命令](note/Linux/文件命令.md)
+  - [系统命令](note/Linux/系统命令.md)
+  - [网络配置](note/Linux/网络配置.md)
+  - [包管理器](note/Linux/包管理器.md)
 - [git](note/Git.md)
+- [nginx](note/Nginx.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |

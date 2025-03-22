@@ -73,11 +73,18 @@ public class Main {
     @Test
     public void groupMatch() {
         // 可用\表示引用分组
-        Pattern pattern = Pattern.compile("^([^-]+)-\\1$");
-        Assertions.assertTrue(pattern.matcher("1-1").matches());
-        Assertions.assertTrue(pattern.matcher("a-a").matches());
-        Assertions.assertTrue(pattern.matcher("asd-asd").matches());
-        Assertions.assertFalse(pattern.matcher("1-asd").matches());
+        Pattern number = Pattern.compile("^([^-]+)-\\1$");
+        Assertions.assertTrue(number.matcher("1-1").matches());
+        Assertions.assertTrue(number.matcher("a-a").matches());
+        Assertions.assertTrue(number.matcher("asd-asd").matches());
+        Assertions.assertFalse(number.matcher("1-asd").matches());
+
+        // 可用\k<>表示引用分组
+        Pattern name = Pattern.compile("^(?<n>[^-]+)-\\k<n>$");
+        Assertions.assertTrue(name.matcher("1-1").matches());
+        Assertions.assertTrue(name.matcher("a-a").matches());
+        Assertions.assertTrue(name.matcher("asd-asd").matches());
+        Assertions.assertFalse(name.matcher("1-asd").matches());
     }
 
     @Test
