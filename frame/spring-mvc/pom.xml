@@ -8,9 +8,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>spring-study</groupId>
-	<artifactId>spring-listener</artifactId>
+	<artifactId>spring-mvc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-listener</name>
+	<name>spring-mvc</name>
 	<description>Demo project for Spring Boot</description>
 	<dependencies>
 		<dependency>
@@ -26,7 +26,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

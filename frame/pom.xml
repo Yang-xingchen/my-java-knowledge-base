@@ -26,6 +26,7 @@
         <module>dynamic-datasource</module>
         <module>mybatis-plus</module>
         <module>json</module>
+        <module>spring-mvc</module>
     </modules>
 
     <groupId>base-study</groupId>
