@@ -37,6 +37,8 @@
   - [format](frame/spring-format): spring序列化/反序列化
   - [listener](frame/spring-listener): 事件监听器
   - [ai](frame/spring-ai): Ollama+deepseek
+  - [mvc](frame/spring-mvc): 阻塞式web服务器/客户端
+  - [webflux](frame/spring-webflux): 非阻塞式web服务器/客户端
 - 数据库
   - [sharding](frame/sharding): 数据库分库分表框架
   - [mybatis](frame/mybatis): ORM框架
