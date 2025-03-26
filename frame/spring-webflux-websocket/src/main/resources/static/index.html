@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+</head>
+
+<body>
+    按下F12, 打开控制台, 输入 send("msg") 发送消息
+</body>
+
+<script>
+    let ws = new WebSocket("ws://localhost:8080/ws")
+    ws.onopen = function() {
+        console.log("link")
+    }
+    ws.onclose = function() {
+        console.log("close")
+    }
+    ws.onerror = function() {
+        console.log("error")
+    }
+    ws.onmessage = function(e) {
+        console.log(e.data)
+    }
+
+    function send(msg) {
+        ws.send(msg)
+    }
+
+</script>
+
+</html>

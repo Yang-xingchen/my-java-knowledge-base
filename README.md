@@ -39,6 +39,8 @@
   - [ai](frame/spring-ai): Ollama+deepseek
   - [mvc](frame/spring-mvc): 阻塞式web服务器/客户端
   - [webflux](frame/spring-webflux): 非阻塞式web服务器/客户端
+  - [mvc-websocket](frame/spring-mvc-websocket): 阻塞式websocket服务器/客户端
+  - [webflux-websocket](frame/spring-webflux-websocket): 非阻塞式websocket服务器/客户端
 - 数据库
   - [sharding](frame/sharding): 数据库分库分表框架
   - [mybatis](frame/mybatis): ORM框架

@@ -28,6 +28,8 @@
         <module>json</module>
         <module>spring-mvc</module>
         <module>spring-webflux</module>
+        <module>spring-mvc-websocket</module>
+        <module>spring-webflux-websocket</module>
     </modules>
 
     <groupId>base-study</groupId>
