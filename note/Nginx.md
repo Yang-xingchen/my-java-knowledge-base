@@ -112,7 +112,7 @@ server {
 
 }
 ```
-即可通过 http://localhost:8080/static 访问 `/opt/module/nginx/html`下的文件。
+即可通过 `http://localhost:8080/static` 访问 `/opt/module/nginx/html`下的文件。
 
 ## 负载均衡
 `vim conf.d/proxy.conf`
@@ -137,7 +137,7 @@ server {
 
 }
 ```
-即可通过 http://localhost:8081 轮询访问`192.168.31.218:8080`和`192.168.31.218:8081`服务器。
+即可通过 `http://localhost:8081` 轮询访问`http://192.168.31.218:8080`和`http://192.168.31.218:8081`服务器。
 
 ## 限流
 `vim conf.d/limit.conf`
@@ -160,7 +160,7 @@ server {
     }
 }
 ```
-即可通过 http://localhost:8082 访问默认页面，若每秒访问大于1次，则返回错误页面(503错误)
+即可通过 `http://localhost:8082` 访问默认页面，若每秒访问大于1次，则返回错误页面(503错误)
 
 ## TCP代理/负载均衡
 > [!IMPORTANT]
@@ -177,8 +177,8 @@ stream {
 `vim stream.conf.d/tcp.conf`
 ```
 upstream tcp {
-    server 192.168.31.230:8080;
-    server 192.168.31.230:8081 weight=3;
+    server 192.168.31.218:8080;
+    server 192.168.31.218:8081 weight=3;
 }
 
 server {
@@ -186,4 +186,76 @@ server {
     proxy_pass tcp;
 }
 ```
-即可通过`localhost:8083`通过tcp访问`192.168.31.230:8080`和`192.168.31.230:8081`
+即可通过`localhost:8083`通过tcp访问`192.168.31.218:8080`和`192.168.31.218:8081`
+
+## websocket代理
+`vim conf.d/websocket.conf`
+```
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+
+upstream ws {
+    server 192.168.31.218:8080;
+    server 192.168.31.218:8081;
+    keepalive 1000;
+}
+
+server {
+    listen       8084;
+    server_name  ws;
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_pass http://ws;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_read_timeout 3600s;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+```
+即可通过 `ws://localhost:8084` 轮询链接 `ws://192.168.31.218:8080`和`ws://192.168.31.218:8081`
+
+## HTTPS
+获取证书，自签证书见 [SSL.md](Linux/SSL.md)
+`vim conf.d/ssl.conf`
+```
+upstream sslproxy {
+    server 192.168.31.218:8080;
+    server 192.168.31.218:8081 weight=3;
+}
+
+server {
+    listen       443 ssl;
+    server_name  ssl;
+
+    ssl_certificate      /etc/nginx/cert/ssl.crt;
+    ssl_certificate_key  /etc/nginx/cert/ssl.key;
+
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    location / {
+        proxy_pass   http://sslproxy;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+```
+即可通过 `https://localhost` 轮询访问`https://192.168.31.218:8080`和`https://192.168.31.218:8081`服务器。
