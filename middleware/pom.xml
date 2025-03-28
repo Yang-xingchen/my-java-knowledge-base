@@ -22,6 +22,7 @@
         <module>pulsar</module>
         <module>seata</module>
         <module>canal</module>
+        <module>redis</module>
     </modules>
 
     <groupId>base-study</groupId>
