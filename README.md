@@ -72,6 +72,7 @@
   - [powerJob](middleware/powerJob): 定时任务
   - [prometheus](middleware/prometheus): 监控
   - [seata](middleware/seata): 分布式事务
+  - [redis](middleware/redis): redis
 - 大数据
   - [flink](middleware/flink)
   - [hadoop](middleware/hadoop)

@@ -43,4 +43,19 @@ public class RedisApplication {
         return new StreamTest(redisTemplate);
     }
 
+    @Bean
+    public CommandLineRunner geo(StringRedisTemplate redisTemplate) {
+        return new GeoTest(redisTemplate);
+    }
+
+    @Bean
+    public CommandLineRunner hll(StringRedisTemplate redisTemplate) {
+        return new HyperLogLogTest(redisTemplate);
+    }
+
+    @Bean
+    public CommandLineRunner other(StringRedisTemplate redisTemplate) {
+        return new OtherTest(redisTemplate);
+    }
+
 }
