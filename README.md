@@ -5,6 +5,13 @@
 > 主要以代码+注释整理，总结内容见各个`*.md`文件内容。
 
 # 目录
+标签说明:
+- `spring`: 项目使用spring系列(官方版本)框架
+- `spring ali`: 项目使用spring系列(阿里版本)框架
+- `h2`: 项目数据库采用`h2`，可直接运行
+- `mysql`: 项目数据库采用`mysql`, 需提前准备环境(建表语句在对应`src/main/resources/schema.sql`)
+
+目录说明: 
 - [base](./base): JDK
 - [frame](./frame): 框架
 - [middleware](./middleware): 中间件
@@ -33,22 +40,22 @@
 ## 框架
 一些框架的使用
 - spring
-  - [transaction](frame/spring-transaction): spring事务
-  - [format](frame/spring-format): spring序列化/反序列化
-  - [listener](frame/spring-listener): 事件监听器
-  - [ai](frame/spring-ai): Ollama+deepseek
-  - [mvc](frame/spring-mvc): 阻塞式web服务器/客户端
-  - [webflux](frame/spring-webflux): 非阻塞式web服务器/客户端
-  - [mvc-websocket](frame/spring-mvc-websocket): 阻塞式websocket服务器/客户端
-  - [webflux-websocket](frame/spring-webflux-websocket): 非阻塞式websocket服务器/客户端
+  - [transaction](frame/spring-transaction): `spring` `mysql` spring事务
+  - [format](frame/spring-format): `spring` spring序列化/反序列化
+  - [listener](frame/spring-listener): `spring` 事件监听器
+  - [ai](frame/spring-ai): `spring` Ollama+deepseek
+  - [mvc](frame/spring-mvc): `spring` 阻塞式web服务器/客户端
+  - [webflux](frame/spring-webflux): `spring` 非阻塞式web服务器/客户端
+  - [mvc-websocket](frame/spring-mvc-websocket): `spring` 阻塞式websocket服务器/客户端
+  - [webflux-websocket](frame/spring-webflux-websocket): `spring` 非阻塞式websocket服务器/客户端
 - 数据库
-  - [sharding](frame/sharding): 数据库分库分表框架
-  - [mybatis](frame/mybatis): ORM框架
-  - [dynamic-datasource](frame/dynamic-datasource): 动态数据源 
-  - [mybatis-plus](frame/mybatis-plus): mybatis扩展
+  - [sharding](frame/sharding): `spring` `mysql` 数据库分库分表框架
+  - [mybatis](frame/mybatis): `spring` `h2` ORM框架
+  - [dynamic-datasource](frame/dynamic-datasource): `spring` `mysql` 动态数据源 
+  - [mybatis-plus](frame/mybatis-plus): `spring` `h2` mybatis扩展
 - 微服务
-  - [dubbo](frame/dubbo): RPC框架
-  - [sentinel](frame/sentinel): 限流框架
+  - [dubbo](frame/dubbo): `spring ali` RPC框架
+  - [sentinel](frame/sentinel): `spring ali` 限流框架
 - 其他
   - [reactor](frame/reactor): 响应式框架
   - [parquet](frame/parquet): 列式文件格式
@@ -65,21 +72,21 @@
 - 微服务
   - [消息队列](middleware/消息中间件.md)
     - [activeMQ](middleware/jms): _JMS方式使用_
-    - [kafka](middleware/kafka)
-    - [pulsar](middleware/pulsar)
+    - [kafka](middleware/kafka): `spring`
+    - [pulsar](middleware/pulsar): `spring`
   - [mysql](middleware/mysql): CTE/窗口函数的使用
-  - [nacos](middleware/nacos): 服务发现/注册中心
-  - [powerJob](middleware/powerJob): 定时任务
-  - [prometheus](middleware/prometheus): 监控
-  - [seata](middleware/seata): 分布式事务
-  - [redis](middleware/redis): redis
+  - [nacos](middleware/nacos): `spring ali` 服务发现/注册中心
+  - [powerJob](middleware/powerJob): `spring` 定时任务
+  - [prometheus](middleware/prometheus): `spring` 监控
+  - [seata](middleware/seata): `spring ali` `mysql` 分布式事务
+  - [redis](middleware/redis): `spring` redis
 - 大数据
-  - [flink](middleware/flink)
+  - [flink](middleware/flink): 
   - [hadoop](middleware/hadoop)
   - [zookeeper](middleware/zookeeper)
   - [spark](middleware/spark)
 - 其他
-  - [canal](middleware/canal): 数据库变更监听
+  - [canal](middleware/canal): `spring` 数据库变更监听
 
 ## 笔记
 与具体代码无关知识
