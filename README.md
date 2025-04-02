@@ -74,14 +74,15 @@
     - [activeMQ](middleware/jms): _JMS方式使用_
     - [kafka](middleware/kafka): `spring`
     - [pulsar](middleware/pulsar): `spring`
-  - [mysql](middleware/mysql): CTE/窗口函数的使用
+  - [数据库](middleware/数据库.md)
+    - [mysql](middleware/mysql): CTE/窗口函数的使用
+    - [redis](middleware/redis): `spring` redis
   - [nacos](middleware/nacos): `spring ali` 服务发现/注册中心
   - [powerJob](middleware/powerJob): `spring` 定时任务
   - [prometheus](middleware/prometheus): `spring` 监控
   - [seata](middleware/seata): `spring ali` `mysql` 分布式事务
-  - [redis](middleware/redis): `spring` redis
 - 大数据
-  - [flink](middleware/flink): 
+  - [flink](middleware/flink)
   - [hadoop](middleware/hadoop)
   - [zookeeper](middleware/zookeeper)
   - [spark](middleware/spark)
@@ -96,7 +97,10 @@
   - [网络配置](note/Linux/网络配置.md)
   - [包管理器](note/Linux/包管理器.md)
 - [git](note/Git.md)
+- [正则](note/正则表达式.md)
 - [nginx](note/Nginx.md)
+- [docker](note/Docker.md)
+- [缓存](note/缓存.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
