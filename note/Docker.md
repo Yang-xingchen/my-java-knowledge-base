@@ -80,7 +80,7 @@ docker容器数据持久化，可在删除docker容器后保留数据。
 - `-d`: 后台运行
 - `-p {target}:{source}`: 绑定端口, `{target}`目标端口，即主机上的端口, `{source}`源端口，即容器内的端口
 - _`-v {target}:{source}`: 挂载，`{target}`目标目录，即主机上的目录或者存储卷, `{source}`源目录，即容器内的目录_
-- `-mount {param}`: 挂载, 可更好控制，推荐使用
+- `--mount {param}`: 挂载, 可更好控制，推荐使用
   - `{param}`: 参数，以`option1=value1,option2=value2`的格式出现，如`type=volume,src=volume,dst=/etc/file`
     - `type`: 类型，可选`volume`(存储卷, 默认)`bind`(本机)`tmpfs`(Linux临时文件，容器停止即销毁)
     - `src`: 存储卷名称(`volume`)或主机目录(`bind`)
