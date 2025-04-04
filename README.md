@@ -48,6 +48,7 @@
   - [webflux](frame/spring-webflux): `spring` 非阻塞式web服务器/客户端
   - [mvc-websocket](frame/spring-mvc-websocket): `spring` 阻塞式websocket服务器/客户端
   - [webflux-websocket](frame/spring-webflux-websocket): `spring` 非阻塞式websocket服务器/客户端
+  - [cache](frame/spring-cache): `spring` 缓存适配
 - 数据库
   - [sharding](frame/sharding): `spring` `mysql` 数据库分库分表框架
   - [mybatis](frame/mybatis): `spring` `h2` ORM框架
@@ -57,15 +58,16 @@
   - [dubbo](frame/dubbo): `spring ali` RPC框架
   - [sentinel](frame/sentinel): `spring ali` 限流框架
 - 其他
-  - [reactor](frame/reactor): 响应式框架
-  - [parquet](frame/parquet): 列式文件格式
-  - [jmh](frame/jmh): 压测
   - [easyexcel](frame/easyexcel): excel读写框架
+  - [reactor](frame/reactor): 响应式框架
+  - [jmh](frame/jmh): 压测
+  - [parquet](frame/parquet): 列式文件格式
   - [netty](frame/netty): 网络框架
   - [json](frame/json): json框架
       - [fastjson](frame/json/fastjson)
       - [fastjson2](frame/json/fastjson2)
       - [jackson](frame/json/jackson)
+  - [caffeine](frame/caffeine): 本地缓存框架
 
 ## 中间件
 第三方组件，独立进程

@@ -1,0 +1,20 @@
+#spring:
+#  cache:
+#    type: caffeine
+#    caffeine:
+#      spec: maximumSize=100
+
+spring:
+  cache:
+    type: redis
+    redis:
+      timeToLive: 1m
+      keyPrefix: "cache:"
+  data:
+    redis:
+      host: 192.168.31.201
+      password: 123456
+
+#spring:
+#  cache:
+#    type: generic

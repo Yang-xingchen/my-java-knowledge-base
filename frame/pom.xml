@@ -30,6 +30,8 @@
         <module>spring-webflux</module>
         <module>spring-mvc-websocket</module>
         <module>spring-webflux-websocket</module>
+        <module>caffeine</module>
+        <module>spring-cache</module>
     </modules>
 
     <groupId>base-study</groupId>
