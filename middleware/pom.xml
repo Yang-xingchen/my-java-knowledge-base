@@ -23,6 +23,7 @@
         <module>seata</module>
         <module>canal</module>
         <module>redis</module>
+        <module>elasticsearch</module>
     </modules>
 
     <groupId>base-study</groupId>
