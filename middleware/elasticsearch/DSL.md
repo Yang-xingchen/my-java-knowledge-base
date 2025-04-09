@@ -196,15 +196,115 @@ Domain Specific Language, 基于JSON定义的查询语言
 
 
 #### 其他
+- `match_all`: 匹配全部文档
 - `ids`: 根据`_id`字段查询，可提供多个值
 - `prefix`: 查询是否包含前缀
 - `regexp`: 正则
 - `wildcard`: 通配符
+- `script`: 使用`script`进行匹配
+- `script_score`: 使用`script`进行打分
+- `rank_feature`: (仅`rank_feature`和`rank_features`类型)，对文档提高该字段的分数
+- `wrapper`: 将指定查询按base64解码后使用
+- `span_term`: 跨度查询，对文本的位置、距离进行控制，用于其他跨度查询的组合
+- `geo_bounding_box`: (仅`geo_point`和`geo_shape`类型)，匹配正方形范围内的坐标(左上和右下坐标)
+- `geo_distance`: (仅`geo_point`和`geo_shape`类型)，匹配圆形范围内的坐标(圆心和距离)
+- `geo_shape`: (仅`geo_point`和`geo_shape`类型)，匹配自定义范围内的坐标
+- `shape`: (仅`shape`类型)，匹配自定义范围内的坐标
+- `parent_id`: (仅`join`类型)，根据父文档id查询子文档
+- `distance_feature`: (仅`date`, `date_nanos`, `geo_point`类型), 提升对于目标点指定距离内的打分
+- `more_like_this`: 查找与提供文档相识的文档
+- `percolate`: 查找可匹配提供文档对应的查询文档(即查询条件存储于目标索引中，使用该索引的文档中的条件查询提供的文档判断匹配程度)
+- `knn`: (仅`dense_vector`类型), 依据knn算法，计算与目标向量最接近的向量
+- `sparse_vector`:
+- `semantic`: (测试阶段)
 
 ## Compound query clauses
-复合查询语句，由多个基本查询语句组合而成。
+复合查询语句，由一到多个基本查询语句组合或调整而成。
 
-[//]: # (TODO)
+### bool
+布尔组合查询。逻辑判断。
+
+步骤: 
+1. 通过`must`、`filter`、`must_not`过滤文档
+2. 根据`must`和`should`调整分数
+
+- `must`: 匹配全部并打分，过滤结果
+- `should`: 匹配部分并打分，仅提高分数不过滤
+- `filter`: 匹配全部但不打分，仅过滤不提高分数
+- `must_not`: 不匹配，过滤结果
+```
+"bool": {
+    "must": [],
+    "should": [],
+    "filter": [],
+    "must_not": []
+}
+```
+
+### boosting
+打分查询。调整打分。
+
+步骤:
+1. 根据`positive`过滤文档
+2. 根据`negative`降低`negative_boost`权重的分数
+
+```
+"boosting": {
+  "positive": {},
+  "negative": {},
+  "negative_boost": {n}
+}
+```
+- `positive`: 匹配的文档
+- `negative`: 降低分数的文档
+- `negative_boost`: 降低分数值, 取值[0-1]的小数
+
+### constant_score
+常量分数。给予相同评分。
+
+步骤:
+1. 根据`filter`过滤文档
+2. 给予所有文档`boost`分数
+
+```
+"constant_score": {
+  "filter": {},
+  "boost": {n}
+}
+```
+- `filter`: 查询
+- `boost`: 分数
+
+### dis_max
+取最高分。
+
+步骤: 
+1. 根据`queries`过滤文档并打分
+2. 取 `最高分*1 + sum(非最高分)*tie_breaker` 作为最后得分
+
+```
+"dis_max": {
+  "queries": [],
+  "tie_breaker": {n}
+}
+```
+- `queries`: 查询的语句
+- `tie_breaker`: 非最高分的查询分数权重, 取值[0-1]的小数, 默认0
+
+### 其他
+- `function_score`: 定义分数的数学运算。
+- `nested`: (仅`nested`类型), 查询`nested`的数据, 返回源数据
+- `has_child`: (仅`join`类型), 查询`join`子文档的数据, 返回父文档
+- `has_parent`: (仅`join`类型), 查询`join`父文档的数据, 返回子文档
+- `pinned`: 提高特定id文档指定分数
+- `span`: 跨度查询，对其他跨度查询的位置及距离进行匹配
+  - `span_multi`: 匹配多个跨度查询
+  - `span_first`: 匹配指定跨度查询距离起始点的位置
+  - `span_near`: 匹配提供跨度查询间最大距离
+  - `span_or`: 匹配多个跨度查询中最少一个
+  - `span_not`: 匹配指定的跨度查询及排除指定的跨度查询
+  - `span_containing`: 匹配指定的跨度优先级, 同`span_within`
+  - `span_within`: 匹配指定的跨度优先级, 同`span_containing`
 
 # aggs
 聚合。

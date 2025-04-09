@@ -79,6 +79,7 @@
   - [数据库](middleware/数据库.md)
     - [mysql](middleware/mysql): CTE/窗口函数的使用
     - [redis](middleware/redis): `spring` redis
+    - [Elasticsearch](middleware/elasticsearch): `spring` Elasticsearch
   - [nacos](middleware/nacos): `spring ali` 服务发现/注册中心
   - [powerJob](middleware/powerJob): `spring` 定时任务
   - [prometheus](middleware/prometheus): `spring` 监控
