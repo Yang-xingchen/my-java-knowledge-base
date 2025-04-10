@@ -36,22 +36,23 @@ public class BaseTest implements CommandLineRunner {
             findByNative(id);
         } finally {
             delete(id);
+            log.info("base complete");
         }
     }
 
     private String save() {
-        Module module = new Module();
+        BaseModule module = new BaseModule();
         module.setString("base");
         module.setText("this module");
         module.setDateTime(LocalDateTime.now());
         module.setRange(Range.open(1, 5));
         module.setPoint(new Point(1.23, 4.56));
         module.setArray(List.of("a1", "a2", "a3"));
-        module.setInner(new Module.Inner("inner", "this is inner"));
+        module.setInner(new BaseModule.Inner("inner", "this is inner"));
         module.setInners(List.of(
-                new Module.Inner("inner0", "this is inners[0]"),
-                new Module.Inner("inner1", "this is inners[1]"),
-                new Module.Inner("inner2", "this is inners[2]")
+                new BaseModule.Inner("inner0", "this is inners[0]"),
+                new BaseModule.Inner("inner1", "this is inners[1]"),
+                new BaseModule.Inner("inner2", "this is inners[2]")
         ));
         operations.save(module);
         log.info("base save: {}", module.getId());
@@ -59,17 +60,17 @@ public class BaseTest implements CommandLineRunner {
     }
 
     private void findById(String id) {
-        Module module = Objects.requireNonNull(operations.get(id, Module.class));
+        BaseModule module = Objects.requireNonNull(operations.get(id, BaseModule.class));
         log.info("find by id[{}]: {}", id, module);
         Assertions.assertEquals("base", module.getString());
     }
 
     private void findByCriteria(String id) {
         Criteria criteria = new Criteria("string").is("base");
-        SearchHits<Module> search = operations.search(new CriteriaQuery(criteria), Module.class);
+        SearchHits<BaseModule> search = operations.search(new CriteriaQuery(criteria), BaseModule.class);
         log.info("base search[criteria]: {}", search);
         log.info("base search[criteria] content: {}", search.getSearchHits().stream().map(SearchHit::getContent).toList());
-        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(Module::getId).anyMatch(id::equals));
+        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(BaseModule::getId).anyMatch(id::equals));
     }
 
     private void findByString(String id) {
@@ -82,25 +83,25 @@ public class BaseTest implements CommandLineRunner {
                     }
                 }
                 """);
-        SearchHits<Module> search = operations.search(query, Module.class);
+        SearchHits<BaseModule> search = operations.search(query, BaseModule.class);
         log.info("base search[string]: {}", search);
         log.info("base search[string] content: {}", search.getSearchHits().stream().map(SearchHit::getContent).toList());
-        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(Module::getId).anyMatch(id::equals));
+        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(BaseModule::getId).anyMatch(id::equals));
     }
 
     private void findByNative(String id) {
         NativeQuery query = NativeQuery.builder()
                 .withQuery(q -> q.term(t -> t.field("string.keyword").value("base")))
                 .build();
-        SearchHits<Module> search = operations.search(query, Module.class);
+        SearchHits<BaseModule> search = operations.search(query, BaseModule.class);
         log.info("base search[native]: {}", search);
         log.info("base search[native] content: {}", search.getSearchHits().stream().map(SearchHit::getContent).toList());
-        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(Module::getId).anyMatch(id::equals));
+        Assertions.assertTrue(search.getSearchHits().stream().map(SearchHit::getContent).map(BaseModule::getId).anyMatch(id::equals));
     }
 
     private void delete(String id) {
-        operations.delete(id, Module.class);
-        Assertions.assertNull(operations.get(id, Module.class));
+        operations.delete(id, BaseModule.class);
+        Assertions.assertNull(operations.get(id, BaseModule.class));
     }
 
 }

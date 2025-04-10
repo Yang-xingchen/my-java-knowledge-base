@@ -23,4 +23,9 @@ public class ElasticsearchApplication {
         return new BaseTest();
     }
 
+    @Bean
+    public CommandLineRunner agg() {
+        return new AggTest();
+    }
+
 }

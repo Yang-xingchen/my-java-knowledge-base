@@ -12,13 +12,12 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.geo.Point;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Document(indexName = "module")
-public class Module implements Serializable {
+public class BaseModule implements Serializable {
 
     @Id
     private String id;
