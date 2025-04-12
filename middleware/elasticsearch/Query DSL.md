@@ -2,9 +2,10 @@
 `GET {index}/_search`
 ```
 {
+  "_source": [],
   "fields": [],
   "script_fields": [],
-  "_source": [],
+  "runtime_mappings": {},
   "collapse": {},
   "highlight": {},
   "query": {},
@@ -21,6 +22,7 @@
   - `_source`: 仅原始字段
   - `fields`: 可对字段进行格式化
   - `script_fields`: 可进行方法计算值
+- `runtime_mappings`: 运行期映射，使用已存在字段通过脚本添加新字段。同[`mappings.runtime`](./索引结构)
 - `collapse`: 去重。类似`DISTINCT`
 - `highlight`: 高亮字段，可添加`html标签`将重要的字词进行标注。
 - `{index}`: 查询的索引，可使用通配符。类似`FROM`
@@ -279,7 +281,7 @@
 - `parent_id`: (仅`join`类型)，根据父文档id查询子文档
 - `distance_feature`: (仅`date`, `date_nanos`, `geo_point`类型), 提升对于目标点指定距离内的打分
 - `more_like_this`: 查找与提供文档相识的文档
-- `percolate`: 查找可匹配提供文档对应的查询文档(即查询条件存储于目标索引中，使用该索引的文档中的条件查询提供的文档判断匹配程度)
+- `percolate`: (仅`percolator`类型), 查找可匹配提供文档对应的查询文档(即查询条件存储于目标索引中，使用该索引的文档中的条件查询提供的文档判断匹配程度)
 - `knn`: (仅`dense_vector`类型), 依据knn算法，计算与目标向量最接近的向量
 - `sparse_vector`:
 - `semantic`: (测试阶段)
