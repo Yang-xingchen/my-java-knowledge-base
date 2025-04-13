@@ -15,7 +15,8 @@
   "sort": {},
   "from": n,
   "size": m,
-  "search_after": []
+  "search_after": [],
+  "seq_no_primary_term": true
 }
 ```
 - `_source`、`fields`、`script_fields`: 返回的字段列表，默认返回全部字段。类似`SELECT`
@@ -32,6 +33,7 @@
 - `sort`: 排序。类似`ORDER BY`。
 - `from`, `size`: 分页，`size`默认10，默认最大值10000。类似`LIMIT`
 - `search_after`: 分页，根据上次查询结果取下一页，可优化查询
+- `seq_no_primary_term`: 返回乐观锁字段`_seq_no`和`_primary_term`，可于更新时使用
 
 返回(仅通用数据):
 ```
