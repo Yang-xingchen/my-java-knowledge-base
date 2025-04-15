@@ -42,12 +42,14 @@
 # 索引
 创建及修改: 见[索引结构.md](索引结构.md)
 
+- `DELETE {index}`: 删除
+- `POST {index}/_open`: 打开
+- `POST {index}/_close`: 关闭
 - `POST {index}/_flush`: 强制`flush`，调用一次`refresh`并将`Segment`写入磁盘及清空`Transaction Log`
 - `POST {index}/_forcemerge`: 强制`merge`，合并`Segment`文件及删除已删除的文档
 - `POST {index}/_update_by_query`: 更新文档，主要用于变更映射后应用变更到旧文档
 - `POST _reindex`: 将数据写入其他索引，请求体为`{"source":{"index":""},"dest":{"index":""}}`。
 - `POST _reindex?wait_for_completion=false`: 异步将数据写入其他索引，请求体为`{"source":{"index":""},"dest":{"index":""}}`。
-- 
 
 # 索引模板
 创建或更新索引模板
@@ -338,7 +340,7 @@ POST _render/template
 - `script`: 模板内容
 - `param`: 参数
 
-模拟查询(不实际查询，请求体同`创建或更新模板`)
+模拟查询(不实际查询)
 ```
 POST _render/template
 {
@@ -370,4 +372,121 @@ GET {index}/_search/template
 
 删除查询模板
 `DELETE _scripts/{name}`
+- `{name}`: 模板名称
+
+# Ingest Pipeline
+创建或更新
+```
+PUT _ingest/pipeline/{name}
+{
+  "description": "",
+  "processors": [],
+  "version": 0
+}
+```
+- `{name}`: 名称
+- `description`: 描述
+- `processors`: 处理器列表，见[官方文档](https://www.elastic.co/docs/reference/enrich-processor)
+- `processors.description`: (通用字段)描述
+- `processors.ignore_failure`: (通用字段)忽略错误
+- `processors.on_failure`: (通用字段)错误处理Pipeline，内容同`processors`
+- `version`: 版本号
+
+模拟处理数据
+```
+POST /_ingest/pipeline/_simulate
+{
+  "pipeline": {
+    "description": "",
+    "processors": []
+  },
+  "docs": []
+}
+```
+- `{name}`: 名称
+- `pipeline`: pipeline内容
+- `pipeline.description`: 描述
+- `pipeline.processors`: 处理器列表
+- `docs`: 处理文档列表
+
+模拟处理数据
+```
+POST /_ingest/pipeline/{name}/_simulate
+{
+  "docs": []
+}
+```
+- `{name}`: 名称
+- `docs`: 处理文档列表
+
+使用: 在操作URL上添加`pipeline={name}`参数
+
+获取
+`GET _ingest/pipeline/{name}`
+- `{name}`: 名称
+
+获取全部
+`GET _ingest/pipeline`
+
+删除
+`DELETE _ingest/pipeline/{name}`
+- `{name}`: 名称
+
+# Enrich policy
+创建
+```
+PUT /_enrich/policy/{name}
+{
+  "{mathType}": {
+    "indices": "",
+    "match_field": "",
+    "enrich_fields": ""
+  }
+}
+```
+- `{name}`: 名称
+- `{matchType}`: 匹配规则，可选`geo_match`(地理位置)、`match`(精确值)、`range`(数据范围)
+- `{matchType}.indices`: 使用的索引
+- `{matchType}.match_field`: 匹配的字段
+- `{matchType}.enrich_fields`: 添加的字段
+
+执行(更新内容，在源文档变动后执行)
+`PUT _enrich/policy/{name}/_execute`
+- `{name}`: 名称
+
+_配置Ingest Pipeline(忽略其他，详细见`Ingest Pipeline`)_
+```
+PUT _ingest/pipeline/{pipelineName}
+{
+  "description": "",
+  "processors": [
+    {
+      "enrich": {
+        "description": "{name}",
+        "policy_name": "",
+        "field": "",
+        "target_field": ""
+      }
+    }
+  ],
+  "version": 0
+}
+```
+- `processors.enrich`: Enrich处理器
+- `processors.enrich.policy_name`: 名称
+- `processors.enrich.field`: 添加的文档中用于匹配的字段
+- `processors.enrich.target_field`: 添加到文档中的字段
+
+获取
+`GET _enrich/policy/{name}`
+- `{name}`: 名称
+
+获取全部
+`GET _enrich/policy`
+
+获取正在执行的信息
+`GET _enrich/_stats`
+
+删除
+`DELETE _enrich/policy/{name}`
 - `{name}`: 模板名称
