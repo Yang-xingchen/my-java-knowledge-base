@@ -67,7 +67,7 @@
 ```
 cluster.name: elasticsearch
 node.name: {name}
-node.roles: ["master", "data"]
+node.roles: ["master", "data", "ingest", "transform", "ml"]
 network.host: 0.0.0.0
 http.port: 9200
 http.cors.enabled: true
@@ -77,7 +77,12 @@ cluster.initial_master_nodes: ["node-1", "node-2", "node-3"]
 ```
 - `cluster.name`: 集群名称, 集群所有节点相同
 - `node.name`: 节点名称, 集群中唯一
-- `node.roles`: 节点角色, 集群中至少两个`master`
+- `node.roles`: 节点角色, 集群中至少两个`master`及至少一个`data`(或者`data_content`和`data_hot`每种至少一个)
+  - `master`: 主节点
+  - `data`: 数据节点
+  - `ingest`: 监控及采集数据
+  - `transform`: 预处理数据
+  - `ml`: 机器学习
 - `network.host`: 允许访问的主机, `0.0.0.0`为所有
 - `http`: http配置
 - `discovery.seed_hosts`: 服务发现种子主机，集群中的一条即可

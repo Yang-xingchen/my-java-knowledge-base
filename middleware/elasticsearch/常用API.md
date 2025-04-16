@@ -27,9 +27,13 @@
 | `GET _cat/segments?v`| `GET _segments` | 查看分段信息 |
 | `GET _cat/aliases?v`| `GET _aliases` | 查看别名 |
 | `GET _cat/tasks?v`| `GET _task` | 查看任务信息 |
+| `GET _cat/templates?v`| `GET _templates` | 查看索引模板 |
+| `GET _cat/component_templates?v`| `GET _component_templates` | 查看组件模板 |
 
 # 集群 & 节点
 
+- `GET /`: 集群信息
+- `GET _license`: 获取许可证信息
 - `GET _cluster/health`: 集群健康状态
 - `GET _cluster/state`: 集群详细状态
 - `GET _cluster/stats`: 集群统计
@@ -64,7 +68,8 @@ PUT _index_template/{name}
     "settings": {},
     "mappings": {}
   },
-  "version": 0
+  "version": 0,
+  "data_stream": {}
 }
 ```
 - `{name}`: 模板名称
@@ -76,6 +81,7 @@ PUT _index_template/{name}
 - `template.settingsa`: 设置，见[索引结构.md](索引结构.md)
 - `template.mappings`: 映射，见[索引结构.md](索引结构.md)
 - `version`: 管理版本号
+- `data_stream`: 使用数据流
 
 模拟创建索引(不实际创建索引，返回为创建索引的内容，请求体同`创建或更新索引模板`)
 `POST _index_template/_simulate`
@@ -374,7 +380,7 @@ GET {index}/_search/template
 `DELETE _scripts/{name}`
 - `{name}`: 模板名称
 
-# Ingest Pipeline
+# Ingest Pipeline(采集管道)
 创建或更新
 ```
 PUT _ingest/pipeline/{name}
@@ -432,7 +438,7 @@ POST /_ingest/pipeline/{name}/_simulate
 `DELETE _ingest/pipeline/{name}`
 - `{name}`: 名称
 
-# Enrich policy
+# Enrich policy(扩充策略)
 创建
 ```
 PUT /_enrich/policy/{name}
@@ -489,4 +495,100 @@ PUT _ingest/pipeline/{pipelineName}
 
 删除
 `DELETE _enrich/policy/{name}`
+- `{name}`: 模板名称
+
+# ILM(索引生命周期管理)
+创建
+```
+PUT _ilm/policy/{name}
+{
+  "policy": {
+    "_mata": {},
+    "phases": {
+      "{phase}": {
+        "min_age": "",
+        "actions": {
+          "rollover": {
+            "max_size": "",
+            "max_age": "",
+            "max_docs": 10000
+          },
+          "allocate": {
+            "number_of_replicas": 1
+          },
+          "shrink": {
+            "allow_write_after_shrink": false,          
+            "number_of_shards": 1
+          },
+          "forcemerge": {
+            "max_num_segments": 1
+          }
+          "readonly": {},
+          "set_priority": {
+            "priority": 1
+          }
+        }
+      }
+    }
+  }
+}
+```
+- `{name}`: 名称
+- `policy`: 策略
+- `policy._mata`: 元数据，内容自定义
+- `policy.phases`: 处理阶段列表
+- `policy.phases.{phase}`: 各处理阶段定义，可选值: `hot`、`warm`、`cold`、`frozen`、`delete`
+- `policy.phases.{phase}.min_age`: 最小年龄，即数据存在多久进入该阶段。可用单位: `nanos`、`micros`、`ms`、`s`、`m`、`h`、`d`, 如`30d`
+- `policy.phases.{phase}.actions`: 操作
+- `policy.phases.{phase}.actions.rollover`: 定义下采样，即将固定时间间隔内的文档汇总/打包到单个摘要文档。通过以减小的粒度存储时序数据来减少索引占用。
+- `policy.phases.{phase}.actions.allocate.number_of_replicas`: 定义分片信息
+- `policy.phases.{phase}.actions.shrink`: 缩小分片
+- `policy.phases.{phase}.actions.shrink.allow_write_after_shrink`: 是否允许写入
+- `policy.phases.{phase}.actions.shrink.number_of_shards`: 分片数，与`max_primary_shard_size`冲突
+- `policy.phases.{phase}.actions.shrink.max_primary_shard_size`: 分片大小，与`number_of_shards`冲突
+- `policy.phases.{phase}.actions.forcemerge.max_num_segments`: 强制合并分段数目，清除已删除的文档
+- `policy.phases.{phase}.actions.readonly`: 设置为只读
+- `policy.phases.{phase}.actions.set_priority.priority`: 重启恢复优先级
+
+获取状态
+`GET _ilm/status`
+
+获取索引生命周期状态
+`GET /{index}/_ilm/explain`
+- `{index}`: 索引
+
+停止
+`POST _ilm/stop`
+
+启动
+`POST _ilm/start`
+
+获取
+`GET _ilm/policy/{name}`
+- `{name}`: 名称
+
+获取全部
+`GET _ilm/policy`
+
+删除
+`DELETE _ilm/policy/{name}`
+- `{name}`: 模板名称
+
+# data streams(数据流)
+获取全部状态
+`GET _data_stream/_stats`
+
+获取状态
+`GET _data_stream/{name}/_stats`
+- `{name}`: 名称
+
+获取
+`GET _data_stream/{name}`
+- `{name}`: 名称
+
+获取全部
+`GET _data_stream/policy`
+
+删除
+`DELETE _data_stream/{name}`
 - `{name}`: 模板名称
