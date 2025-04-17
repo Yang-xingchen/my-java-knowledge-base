@@ -72,7 +72,7 @@ PUT _index_template/{name}
   "data_stream": {}
 }
 ```
-- `{name}`: 模板名称
+- `{name}`: 名称
 - `index_patterns`: 索引格式，使用通配符或数组表示该模板匹配的索引名称
 - `composed_of`: 合并的组件模板名称列表，按顺序合并组件模板
 - `priority`: 优先级，选择匹配模板中数字最大的模板
@@ -92,14 +92,14 @@ PUT _index_template/{name}
 
 获取模板
 `GET _index_template/{name}`
-- `{name}`: 模板名称，可使用通配符
+- `{name}`: 名称，可使用通配符
 
 获取全部模板
 `GET _index_template`
 
 删除模板
 `DELETE _index_template/{name}`
-- `{name}`: 模板名称，可使用通配符
+- `{name}`: 名称，可使用通配符
 
 # 组件模板
 创建或更新组件模板
@@ -114,7 +114,7 @@ PUT _component_template/{name}
   "version": 0
 }
 ```
-- `{name}`: 模板名称
+- `{name}`: 名称
 - `template`: 模板内容
 - `template.aliases`: 别名，见[索引结构.md](索引结构.md)
 - `template.settingsa`: 设置，见[索引结构.md](索引结构.md)
@@ -126,14 +126,14 @@ PUT _component_template/{name}
 
 获取模板
 `GET _component_template/{name}`
-- `{name}`: 模板名称，可使用通配符
+- `{name}`: 名称，可使用通配符
 
 获取全部模板
 `GET _component_template`
 
 删除模板
 `DELETE _component_template/{name}`
-- `{name}`: 模板名称，可使用通配符
+- `{name}`: 名称，可使用通配符
 
 # 别名
 操作别名
@@ -162,8 +162,8 @@ POST _aliases
 - `actions`: 操作列表
 - `actions.add`: 添加或更新操作
 - `actions.add.index`: 操作的索引，支持通配符
-- `actions.add.alias`: 别名名称
-- `actions.add.aliases`: 别名名称
+- `actions.add.alias`: 名称
+- `actions.add.aliases`: 名称列表
 - `actions.add.filter`: 过滤的内容，见[Query DSL.md](Query%20DSL.md)
 - `actions.add.is_write_index`: 是否为写索引，同一个别名只能有一个写索引，用于写入数据
 - `actions.remove`: 删除操作
@@ -172,7 +172,7 @@ POST _aliases
 
 获取别名
 `GET _alias/{name}`
-- `{name}`: 别名名称，可使用通配符
+- `{name}`: 名称，可使用通配符
 
 获取全部别名
 `GET _alias`
@@ -371,14 +371,14 @@ GET {index}/_search/template
 
 获取查询模板
 `GET _scripts/{name}`
-- `{name}`: 模板名称
+- `{name}`: 名称
 
 获取全部查询模板
 `GET _scripts`
 
 删除查询模板
 `DELETE _scripts/{name}`
-- `{name}`: 模板名称
+- `{name}`: 名称
 
 # Ingest Pipeline(采集管道)
 创建或更新
@@ -495,7 +495,7 @@ PUT _ingest/pipeline/{pipelineName}
 
 删除
 `DELETE _enrich/policy/{name}`
-- `{name}`: 模板名称
+- `{name}`: 名称
 
 # ILM(索引生命周期管理)
 创建
@@ -591,4 +591,115 @@ PUT _ilm/policy/{name}
 
 删除
 `DELETE _data_stream/{name}`
-- `{name}`: 模板名称
+- `{name}`: 名称
+
+# 存储库
+创建或更新存储库
+```
+PUT _snapshot/{name}
+{
+  "type": "fs",
+  "settings": {
+    "location": "",
+    "compress": true
+  }
+}
+```
+- `{name}`: 存储库名称
+- `type`: 类型，`fs`为文件系统
+- `settings.location`: 路径，可用绝对路径及相对路径(相对于`conf/elasticsearch.yml`文件`path.repo`的第一个配置)，需每个节点都创建该路径且有权限
+- `settings.compress `: 是否开启压缩
+
+获取存储库
+`GET _snapshot/{name}`
+- `{name}`: 名称
+
+获取全部存储库
+`GET _snapshot`
+
+删除存储库引用(文件内容不删除)
+`DELETE _snapshot/{name}`
+- `{name}`: 名称
+
+# snapshot
+手动创建快照
+`PUT _snapshot/{repository}/{snapshot}`
+- `{repository}`: 存储库
+- `{snapshot}`: 名称
+
+恢复快照
+```
+POST _snapshot/{repository}/{snapshot}/_restore
+{
+  "indices": "",
+  "rename_pattern": "",
+  "rename_replacement": ""
+}
+```
+- `{repository}`: 存储库
+- `{snapshot}`: 名称
+- `indices`: 恢复的索引(默认全部)
+- `rename_pattern`: 使用正则捕获索引名称
+- `rename_replacement`: 使用正则重命名恢复的索引，可使用`rename_pattern`捕获的分组
+
+获取快照信息
+`GET _snapshot/{repository}/{snapshot}`
+- `{repository}`: 存储库
+- `{snapshot}`: 名称
+
+删除快照
+`DELETE _snapshot/{repository}/{snapshot}`
+- `{snapshot}`: 名称
+
+# SLM(快照生命周期管理)
+创建或更新SLM
+```
+PUT _slm/policy/{name}
+{
+  "name": "{snapName}",
+  "schedule": "0 0 0 * * ?",
+  "repository": "{repositoryName}",
+  "config": {
+    "include_global_state": true,
+    "feature_states": []
+  },
+  "retention": {
+    "expire_after": ""
+  }
+}
+```
+- `{name}`: 策略名称
+- `schedule`: 创建时间，使用cron表达式
+- `repository`: 使用的存储库名称
+- `config`: 配置
+- `config.include_global_state`: 是否包括全局状态
+- `config.feature_states`: 包括的功能状态，不填为全部
+- `retention`: 保留设置
+- `retention.expire_after`: 保留时间，可用单位: `s`、`m`、`h`、`d`, 如`30d`
+- `retention.min_count`: 最小保留数量
+- `retention.max_count`: 最大保留数量
+
+手动执行创建快照(不等待cron)
+`POST _slm/policy/{name}/_execute`
+- `{name}`: 名称
+-
+手动执行移除过期快照(不等待cron)
+`POST _slm/_execute_retention`
+- `{name}`: 名称
+
+获取状态
+`GET _slm/_status`
+
+获取统计
+`GET _slm/_stats`
+
+获取SLM
+`GET _slm/policy/{name}`
+- `{name}`: 名称
+
+获取全部SLM
+`GET _slm/policy`
+
+删除SLM
+`DELETE _slm/policy/{name}`
+- `{name}`: 名称
