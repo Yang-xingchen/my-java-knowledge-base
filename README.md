@@ -104,6 +104,9 @@
 - [nginx](note/Nginx.md)
 - [docker](note/Docker.md)
 - [缓存](note/缓存.md)
+- JVM
+  - [运行时内存区域.md](note/jvm/运行时内存区域.md)
+  - [GC.md](note/jvm/GC.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
