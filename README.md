@@ -110,6 +110,7 @@
   - [类文件结构](note/jvm/类文件结构.md)
   - [字节码](note/jvm/字节码.md)
   - [类生命周期](note/jvm/类生命周期.md)
+  - [编译及优化](note/jvm/编译及优化.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
