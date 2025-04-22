@@ -19,8 +19,8 @@ public class VarHandleTest {
     public void get() throws Throwable {
         // getXxx: 获取字段值
         // get(): 只获取, 可能指令重排
-        // getAcquire(): 获取, 不会使执行前指令重排到执行后
         // getOpaque(): 获取, 不会指令重排, 不适用内存屏障
+        // getAcquire(): 获取, 不会使执行指令后重排到执行前
         // getVolatile(): 获取, 不会指令重排, 使用内存屏障
         VarHandle psiHandle = MethodHandles.lookup().findStaticVarHandle(VarHandleTest.class, "psi", int.class);
         VarHandle piHandle = MethodHandles.lookup().findVarHandle(VarHandleTest.class, "pi", int.class);
@@ -34,8 +34,8 @@ public class VarHandleTest {
     public void set() throws Throwable {
         // setXxx: 设置字段值
         // set(): 只设置, 可能指令重排
-        // setRelease(): 设置, 不会使执行后指令重排到执行前
         // setOpaque(): 设置, 不会指令重排, 不适用内存屏障
+        // setRelease(): 设置, 不会使执行指令前重排到执行后
         // setVolatile(): 设置, 不会指令重排, 使用内存屏障
         VarHandle psiHandle = MethodHandles.lookup().findStaticVarHandle(VarHandleTest.class, "psi", int.class);
         VarHandle piHandle = MethodHandles.lookup().findVarHandle(VarHandleTest.class, "pi", int.class);
@@ -56,10 +56,10 @@ public class VarHandleTest {
         // }
         // return false;
         // compareAndSet: CAS, 设置值时不会失败, 不会指令重排, 使用内存屏障
-        // weakCompareAndSet: CAS, 设置值时可能失败, 不会指令重排, 使用内存屏障
-        // weakCompareAndSetAcquire: CAS, 设置值时可能失败, 不会使执行前指令重排到执行后
-        // weakCompareAndSetRelease: CAS, 设置值时可能失败, 不会使执行后指令重排到执行前
         // weakCompareAndSetPlain: CAS, 设置值时可能失败, 可能指令重排
+        // weakCompareAndSetAcquire: CAS, 设置值时可能失败, 不会使执行后指令重排到执行前
+        // weakCompareAndSetRelease: CAS, 设置值时可能失败, 不会使执行前指令重排到执行后
+        // weakCompareAndSet: CAS, 设置值时可能失败, 不会指令重排, 使用内存屏障
         VarHandle psiHandle = MethodHandles.lookup().findStaticVarHandle(VarHandleTest.class, "psi", int.class);
         VarHandle piHandle = MethodHandles.lookup().findVarHandle(VarHandleTest.class, "pi", int.class);
         VarHandleTest obj = new VarHandleTest();
@@ -83,9 +83,9 @@ public class VarHandleTest {
         //     set(arg[1]);
         // }
         // return ret;
+        // CompareAndSetAcquire: CAS, 设置值时可能失败, 不会使执行后指令重排到执行前
+        // CompareAndSetRelease: CAS, 设置值时可能失败, 不会使执行前指令重排到执行后
         // compareAndSet: CAS, 设置值时不会失败, 不会指令重排, 使用内存屏障
-        // CompareAndSetAcquire: CAS, 设置值时可能失败, 不会使执行前指令重排到执行后
-        // CompareAndSetRelease: CAS, 设置值时可能失败, 不会使执行后指令重排到执行前
         VarHandle psiHandle = MethodHandles.lookup().findStaticVarHandle(VarHandleTest.class, "psi", int.class);
         VarHandle piHandle = MethodHandles.lookup().findVarHandle(VarHandleTest.class, "pi", int.class);
         VarHandleTest obj = new VarHandleTest();
@@ -107,9 +107,9 @@ public class VarHandleTest {
         // var ret = get();
         // set(arg[0]);
         // return ret;
+        // getAndSetAcquire: 获取字段值并设置, 不会使执行后指令重排到执行前
+        // getAndSetRelease: 获取字段值并设置, 不会使执行前指令重排到执行后
         // getAndSet: 获取字段值并设置, 不会指令重排, 使用内存屏障
-        // getAndSetAcquire: 获取字段值并设置, 不会使执行前指令重排到执行后
-        // getAndSetRelease: 获取字段值并设置, 不会使执行后指令重排到执行前
         VarHandle psiHandle = MethodHandles.lookup().findStaticVarHandle(VarHandleTest.class, "psi", int.class);
         VarHandle piHandle = MethodHandles.lookup().findVarHandle(VarHandleTest.class, "pi", int.class);
         VarHandleTest obj = new VarHandleTest();
