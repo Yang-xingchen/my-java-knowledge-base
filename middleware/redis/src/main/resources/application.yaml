@@ -2,9 +2,9 @@ spring:
   data:
     redis:
       host: 192.168.31.201
-      port: 7000
-      username: default
-      password: 123456
+      port: 6379
+#      username: default
+#      password: 123456
 #      cluster:
 #        nodes:
 #          - 192.168.31.201:7000

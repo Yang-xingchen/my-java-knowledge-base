@@ -123,17 +123,18 @@ auto-aof-rewrite-percentage 100
 | Hash | 键值对 | `hash` | `H`xx | [HashTest](src/main/java/com/example/HashTest.java) | | |
 | List | 有序可重复列表 | `list` | `L`xx | [ListTest](src/main/java/com/example/ListTest.java) | | |
 | Set | 无序不重复集合 | `set` | `S`xx | [SetTest](src/main/java/com/example/SetTest.java) | | |
-| Sorted Set | 有序集合 | `zset` | `Z`xx | [ZsetTest](src/main/java/com/example/ZsetTest.java) | | 常用于排行榜 |
+| Sorted set | 有序集合 | `zset` | `Z`xx | [ZsetTest](src/main/java/com/example/ZsetTest.java) | | 常用于排行榜 |
 | Stream | 数据流 | `stream` | `X`xx | [StreamTest](src/main/java/com/example/StreamTest.java) | 5.0 | 类似消息队列 |
 | Bitmap | 位图 | `string` | xx`BIT`/`BITCOUNT`| [StringTest#bitMap](src/main/java/com/example/StringTest.java) | | 低占用存储boolean数组 |
 | Bitfield | 位域 | `string` | `BITFIELD` | [StringTest#bitField](src/main/java/com/example/StringTest.java) | | 低占用存储int数组 |
 | Geospatial | 地理位置 | `zset` | `GEO`xx | [GeoTest](src/main/java/com/example/GeoTest.java) | 3.2 | 计算坐标位置的距离/查找范围内坐标 |
-| JSON | json | `ReJSON-RL` | `JSON.`xx | [OtherTest#json](src/main/java/com/example/OtherTest.java) | Redis Stack | 类似文档数据库 |
-| Probabilistic data types | 统计 | | | | Redis Stack | 大数据统计，使用近似值以提高效率降低存储 |
-| - HyperLogLog | 基数统计 | `string` | `PFADD`/`PFCOUNT` | [HyperLogLogTest](src/main/java/com/example/HyperLogLogTest.java) | Redis Stack | 统计大量元素的去重数量，结果与实际值有一定的误差。占用<12k, 误差<0.81% |
-| - Bloom filters | 布尔过滤器 | `MBbloom--` | `BF.`xx | [OtherTest#bf](src/main/java/com/example/OtherTest.java) | Redis Stack | 判断一个数是否存在集合，可能将不存在判断为存在，集合不可以删除元素 |
-| - Cuckoo filters | 布谷鸟过滤器 | `MBbloomCF` | `CF.`xx | [OtherTest#cf](src/main/java/com/example/OtherTest.java) | Redis Stack | 判断一个数是否存在集合，可能将不存在判断为存在，集合可以删除元素(可能误删)，集合添加元素可能失败 |
-| - t-digest | 近似分位数 | `TDIS-TYPE` | `TDIGEST.`xx | [OtherTest#tdigest](src/main/java/com/example/OtherTest.java) | Redis Stack | 计算近似的百分位或元素的百分位位置，结果与实际值有一定的误差 |
-| - Top-K | 前k位 | `TopK-TYPE` | `TOPK.`xx | [OtherTest#topk](src/main/java/com/example/OtherTest.java) | Redis Stack | 获取最高的k元素值，结果与实际值有一定的差异 |
-| - Count-min sketch | 频率统计 | `CMSk-TYPE` | `CMS.`xx | [OtherTest#cms](src/main/java/com/example/OtherTest.java) | Redis Stack | 统计元素的频率，结果与实际值有一定的误差 |
-| Time series | 时间序列 | `TSDB-TYPE` | `TS.`xx | [OtherTest#ts](src/main/java/com/example/OtherTest.java) | Redis Stack | 类似时序数据库 |
+| JSON | json | `ReJSON-RL` | `JSON.`xx | [OtherTest#json](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 类似文档数据库 |
+| Probabilistic data types | 统计 | | | | Redis Stack / 8.0 | 大数据统计，使用近似值以提高效率降低存储 |
+| - HyperLogLog | 基数统计 | `string` | `PFADD`/`PFCOUNT` | [HyperLogLogTest](src/main/java/com/example/HyperLogLogTest.java) | Redis Stack / 8.0 | 统计大量元素的去重数量，结果与实际值有一定的误差。占用<12k, 误差<0.81% |
+| - Bloom filters | 布尔过滤器 | `MBbloom--` | `BF.`xx | [OtherTest#bf](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 判断一个数是否存在集合，可能将不存在判断为存在，集合不可以删除元素 |
+| - Cuckoo filters | 布谷鸟过滤器 | `MBbloomCF` | `CF.`xx | [OtherTest#cf](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 判断一个数是否存在集合，可能将不存在判断为存在，集合可以删除元素(可能误删)，集合添加元素可能失败 |
+| - t-digest | 近似分位数 | `TDIS-TYPE` | `TDIGEST.`xx | [OtherTest#tdigest](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 计算近似的百分位或元素的百分位位置，结果与实际值有一定的误差 |
+| - Top-K | 前k位 | `TopK-TYPE` | `TOPK.`xx | [OtherTest#topk](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 获取最高的k元素值，结果与实际值有一定的差异 |
+| - Count-min sketch | 频率统计 | `CMSk-TYPE` | `CMS.`xx | [OtherTest#cms](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 统计元素的频率，结果与实际值有一定的误差 |
+| Time series | 时间序列 | `TSDB-TYPE` | `TS.`xx | [OtherTest#ts](src/main/java/com/example/OtherTest.java) | Redis Stack / 8.0 | 类似时序数据库 |
+| Vector set | 向量 | `vectorset` | `V`xx | | 8.0(preview) | 向量 |
