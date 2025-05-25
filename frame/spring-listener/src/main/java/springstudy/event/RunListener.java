@@ -35,7 +35,7 @@ public class RunListener implements SpringApplicationRunListener {
     public void contextPrepared(ConfigurableApplicationContext context) {
         log.info("contextPrepared...");
         // 在contextLoaded后，初始化实例前
-        context.addBeanFactoryPostProcessor(beanFactory -> log.info("BeanDefinitionNames: {}", Arrays.toString(beanFactory.getBeanDefinitionNames())));
+//        context.addBeanFactoryPostProcessor(beanFactory -> log.info("BeanDefinitionNames: {}", Arrays.toString(beanFactory.getBeanDefinitionNames())));
     }
 
     @Override

@@ -1,15 +1,17 @@
 package springstudy.event.component;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import springstudy.event.AnnotationComponent;
 
 @Slf4j
 @AnnotationComponent("b class")
-public class B implements DisposableBean {
+public class B implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware,  InitializingBean, DisposableBean {
 
-    @Autowired
     private A a;
 
     public B() {
@@ -18,6 +20,33 @@ public class B implements DisposableBean {
 
     public String test() {
         return a == null ? "null" : a.toString();
+    }
+
+    @Autowired
+    public B setA(A a) {
+        this.a = a;
+        log.info("B set A");
+        return this;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        log.info("B setBeanName");
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        log.info("B setBeanClassLoader");
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        log.info("B setBeanFactory");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("afterPropertiesSet B");
     }
 
     @Override
