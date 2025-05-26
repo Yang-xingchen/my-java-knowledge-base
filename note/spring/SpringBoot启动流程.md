@@ -28,10 +28,12 @@
 13. (系统)`SpringApplication#afterRefresh`: 空方法
 14. _(系统)`Startup#started`_
 15. `SpringApplicationRunListener#started`: 调用生命周期函数`started`
-    - `ApplicationListener`接收事件`AvailabilityChangeEvent`, state: `ACCEPTING_TRAFFIC`
+    - `ApplicationListener`接收事件`ApplicationStartedEvent`
+    - `ApplicationListener`接收事件`AvailabilityChangeEvent`, state: `CORRECT`
 16. `SpringApplication#callRunners`执行`CommandLineRunner`
 17. `SpringApplicationRunListener#ready`: 调用生命周期函数`ready`
     - `ApplicationListener`接收事件`ApplicationReadyEvent`
+    - `ApplicationListener`接收事件`AvailabilityChangeEvent`, state: `ACCEPTING_TRAFFIC`
 18. (系统)`SpringApplication#run`方法结束
 19. *============================== 程序运行 ==============================*
 20. (用户)发送http请求结束后: `ApplicationListener`接收事件`ServletRequestHandledEvent`

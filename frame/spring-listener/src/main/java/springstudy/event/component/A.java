@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContextAware;
 import springstudy.event.AnnotationComponent;
 
 @Slf4j
-public class A implements InitializingBean, DisposableBean {
+public class A implements SmartInitializingSingleton, InitializingBean, DisposableBean {
 
     public A() {
         log.info("created A");
@@ -21,6 +21,11 @@ public class A implements InitializingBean, DisposableBean {
 
     public void init() {
         log.info("A init");
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        log.info("A afterSingletonsInstantiated");
     }
 
     @Override
