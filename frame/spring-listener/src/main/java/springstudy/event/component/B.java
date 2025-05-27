@@ -1,11 +1,14 @@
 package springstudy.event.component;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
 import springstudy.event.AnnotationComponent;
 
 @Slf4j
@@ -20,6 +23,11 @@ public class B implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware,
 
     public String test() {
         return a == null ? "null" : a.toString();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("B postConstruct");
     }
 
     @Autowired
@@ -47,6 +55,11 @@ public class B implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware,
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("afterPropertiesSet B");
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        log.info("B preDestroy");
     }
 
     @Override

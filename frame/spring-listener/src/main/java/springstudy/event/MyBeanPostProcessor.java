@@ -1,8 +1,11 @@
 package springstudy.event;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 //@Component
