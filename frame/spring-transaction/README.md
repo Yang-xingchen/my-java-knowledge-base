@@ -1,5 +1,8 @@
 # spring事务测试
 
+## 事务说明
+[事务.md](../../note/数据库/事务.md)
+
 ## 基本测试
 [ModelServerImpl.java](src/main/java/transaction/ModelServerImpl.java)
 
