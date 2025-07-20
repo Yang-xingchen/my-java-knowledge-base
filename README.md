@@ -113,6 +113,10 @@
   - [编译及优化](note/jvm/编译及优化.md)
   - [Java内存模型](note/jvm/JMM.md)
   - [线程与锁](note/jvm/线程与锁.md)
+- 数据库
+  - [类型](note/数据库/类型.md)
+  - [事务](note/数据库/事务.md)
+  - [索引](note/数据库/索引.md)
 
 # 微服务导航
 | [服务发现](./middleware/nacos/discovery.md) | 服务框架 | 分布式事务 | 备注 | 项目 |
